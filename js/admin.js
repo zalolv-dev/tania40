@@ -186,7 +186,8 @@ function openConsole(app) {
     h("div", {}, `Fase actual: ${s.currentPhase > PHASES.length ? "FINAL" : s.currentPhase}`),
     h("div", {}, `Completadas: ${s.completedPhases.map((p) => p.id).join(", ") || "ningunha"}`),
     h("div", {}, `Bloqueo restante: ${Math.ceil(S.remainingMs() / 1000)} s`),
-    h("div", {}, `Bloqueo configurado: ${S.lockMs() / 1000} s ${S.isDev() ? "(MODO DESENVOLVEMENTO)" : ""}`),
+    h("div", {}, `Desbloqueo: ${S.isDev() ? `${S.lockMs() / 1000} s (MODO DESENVOLVEMENTO)` : CONFIG.UNLOCK_MODE === "24h" ? "24 h" : "á medianoite"}`),
+    h("div", {}, `Final non antes de: ${CONFIG.FINAL_DATE || "sen data"}${S.isDev() ? " (ignorado en desenvolvemento)" : ""}`),
     S.clockTampered() ? h("div.warn", {}, "Detectouse reloxo cara atrás.") : null
   );
 
@@ -240,7 +241,7 @@ function openConsole(app) {
     h("h3", {}, "MODO DESENVOLVEMENTO"),
     h("p.admin-note", {}, devOn
       ? "Permitido. Abre a páxina con ?dev=1 para que o bloqueo dure 5 segundos."
-      : "Desactivado. O bloqueo dura 24 horas."),
+      : "Desactivado. O seguinte capítulo ábrese á medianoite."),
     h("div.admin-grid", {},
       btn(devOn ? "DESACTIVAR MODO DESENVOLVEMENTO" : "PERMITIR MODO DESENVOLVEMENTO", act(() => S.setDevAllowed(!devOn), devOn ? "MODO NORMAL" : "?dev=1 PERMITIDO"), "small")
     ),

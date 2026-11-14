@@ -141,7 +141,10 @@ const ICONS = {
   shell: "◎",
   key: "⚿",
   family: "♥",
-  clock: "⧗"
+  clock: "⧗",
+  fish: "≋",
+  ball: "●",
+  house: "⌂"
 };
 
 export function renderInventory(items, onPick) {
@@ -268,8 +271,10 @@ export function wait(ms) {
 
 export function formatCountdown(ms) {
   const total = Math.ceil(ms / 1000);
-  const hh = Math.floor(total / 3600);
+  const days = Math.floor(total / 86400);
+  const hh = Math.floor((total % 86400) / 3600);
   const mm = Math.floor((total % 3600) / 60);
   const ss = total % 60;
-  return [hh, mm, ss].map((n) => String(n).padStart(2, "0")).join(":");
+  const clock = [hh, mm, ss].map((n) => String(n).padStart(2, "0")).join(":");
+  return days > 0 ? `${days} ${days === 1 ? "día" : "días"} · ${clock}` : clock;
 }

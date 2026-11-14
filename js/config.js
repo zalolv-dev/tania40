@@ -10,8 +10,15 @@ export const CONFIG = {
   STORAGE_KEY: "tania40:game-state:v1",
   STATE_VERSION: 1,
 
-  // Tempo de bloqueo entre fases (produción: 24 horas).
+  // Cando se desbloquea o seguinte capítulo:
+  //  "midnight" → ás 00:00 do día seguinte (un capítulo por día de calendario)
+  //  "24h"      → PHASE_LOCK_MS despois de completar o anterior
+  UNLOCK_MODE: "midnight",
   PHASE_LOCK_MS: 24 * 60 * 60 * 1000,
+
+  // O último capítulo (a caixa forte) nunca se abre antes desta data (hora local).
+  // Pon null para desactivalo.
+  FINAL_DATE: "2026-12-01",
 
   // Modo desenvolvemento: se está a true, o bloqueo dura DEV_PHASE_LOCK_MS.
   // ¡Lembra deixalo en false antes de facer push!

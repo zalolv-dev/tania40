@@ -4,7 +4,7 @@ import * as S from "./state.js";
 import * as ui from "./ui.js";
 import * as audio from "./audio.js";
 import * as scenes from "./scenes.js";
-import { PHASES, getPhase, CONTENT } from "./phases.js";
+import { PHASES, getPhase, CONTENT, numberGl } from "./phases.js";
 import { initAdminTrigger } from "./admin.js";
 
 const { h, btn } = ui;
@@ -122,7 +122,7 @@ function showIntro() {
   stage.append(h("div.title-overlay", {}, h("div.level", {}, "NIVEL"), h("div.level-num", {}, "40")));
   const steps = [
     ["Tania.", "Chegaches ata aquí.", "Pero o teu regalo segue bloqueado."],
-    ["Para descubrilo terás que recuperar dez fragmentos dunha historia que coñeces bastante ben."]
+    [`Para descubrilo terás que recuperar ${numberGl(PHASES.length)} fragmentos dunha historia que coñeces bastante ben.`]
   ];
   let i = 0;
   const next = () => {
@@ -165,7 +165,7 @@ function showCompletion(def) {
   const card = h("div.complete-card", {},
     h("div.complete-title", {}, `CAPÍTULO ${def.id} COMPLETADO`),
     def.reward ? h("div.complete-item", {}, h("span.big-icon", { "aria-hidden": "true" }, "◆"), def.reward.name) : null,
-    h("div.complete-count", {}, `Fragmentos: ${Math.min(s.completedPhases.length, 9)} / 10`)
+    h("div.complete-count", {}, `Fragmentos: ${Math.min(s.completedPhases.length, PHASES.length - 1)} / ${PHASES.length}`)
   );
   const stage = ui.stageEl();
   stage.append(h("div.stage-overlay.complete-overlay", {}, card));
@@ -179,15 +179,18 @@ function showLock() {
   const last = s.completedPhases.length ? s.completedPhases[s.completedPhases.length - 1].id : 0;
   ui.chapter(`CAPÍTULO ${s.currentPhase} · BLOQUEADO`);
   const timeEl = h("div.countdown", { role: "timer", "aria-live": "off" }, ui.formatCountdown(S.remainingMs()));
+  const finalWait = S.waitingFinalDate();
   const stage = ui.stage(h("div.scene", { html: scenes.title() }), "scene-stage lock-screen");
   stage.append(
     h("div.stage-overlay", {},
       h("div.lock-card", {},
-        h("div.lock-title", {}, "SEGUINTE CAPÍTULO BLOQUEADO"),
+        h("div.lock-title", {}, finalWait ? "A CAIXA FORTE AGARDA" : "SEGUINTE CAPÍTULO BLOQUEADO"),
         timeEl,
-        h("div.lock-sub", {}, `Fragmentos: ${Math.min(last, 9)} / 10`)))
+        h("div.lock-sub", {}, `Fragmentos: ${Math.min(last, PHASES.length - 1)} / ${PHASES.length}`)))
   );
-  ui.say(["A aventura continuará cando chegue o momento.", "Podes pechar esta páxina.", "A partida queda gardada."], { instant: true });
+  ui.say(finalWait
+    ? ["Chegaches antes do previsto.", `A caixa forte só se abrirá o ${finalDateText()}.`, "Ata entón, a partida queda gardada."]
+    : ["A aventura continuará cando chegue o momento.", "Podes pechar esta páxina.", "A partida queda gardada."], { instant: true });
   ui.controls(h("p.tip", {}, "Mentres agardas, podes revisar o inventario."));
   syncMusic();
   countdownTimer = setInterval(() => {
@@ -202,6 +205,12 @@ function showLock() {
       render();
     }
   }, 1000);
+}
+
+const MONTHS_GL = ["xaneiro", "febreiro", "marzo", "abril", "maio", "xuño", "xullo", "agosto", "setembro", "outubro", "novembro", "decembro"];
+function finalDateText() {
+  const d = new Date(S.finalDateMs());
+  return `${d.getDate()} de ${MONTHS_GL[d.getMonth()]}`;
 }
 
 function showClockWarning() {
@@ -323,6 +332,7 @@ const app = {
 // ---------------------------------------------------------------------
 function boot() {
   ui.init();
+  S.setTotalPhases(PHASES.length);
   S.load();
   if (!S.hasStorage) ui.toast("ESTE NAVEGADOR NON GARDA A PARTIDA", "error");
 

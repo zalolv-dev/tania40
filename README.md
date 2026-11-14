@@ -60,27 +60,38 @@ tania40/
 
 ---
 
-## Los 10 capítulos
+## Los 13 capítulos
 
 | # | Capítulo | Mecánica | Solución |
 |---|----------|----------|----------|
 | 1 | A Torre de Hércules | explorar + frase libre | beso + "seguir hablando" / "perder el tiempo" (acepta variantes ES/GL) |
 | 2 | Nova York | encontrar postal + secuencia de objetos | maleta → taxi → rascacielos *(provisional)* |
 | 3 | Maldivas | encontrar palabras + completar frase | VIAXE · LÚA · LEMBRANZA |
-| 4 | O candado da voda | candado 6 cifras | `250714` |
+| 4 | O candado da voda (Pazo de Mondoi) | candado 6 cifras | `250714` |
 | 5 | O incidente da saba | examinar cama + respuesta libre | "Gonzalo" (el que se quejó en recepción) |
-| 6 | Con la luna llena | respuesta libre + QR Spotify | "Con la luna llena" (sin exigir Melendi) |
-| 7 | Fotografía rota | puzle 3×3 por intercambio | — |
-| 8 | O arquivo familiar | fichas de fechas + candado 4 cifras | 15/11/2016, 17/06/2022 → `2805` (28/05, inicio de la relación) |
-| 9 | Arquivo temporal | ordenar recuerdos + Gonzalo NPC | Torre → Nova York → Voda → Maldivas → Martiño e Xoel |
-| 10 | A caixa forte | caja fuerte | `FINAL_CODE` (lo das tú en persona) |
+| 6 | Baixo o mar das Maldivas | registrar 4 animales + pregunta de cultura general | atolón **Ari Sur** (tiburones ballena todo el año) |
+| 7 | Con la luna llena | respuesta libre + QR Spotify | "Con la luna llena" (sin exigir Melendi) |
+| 8 | Fotografía rota | puzle 3×3 por intercambio | — |
+| 9 | Noite no Coliseum | 3 tiros libres (minijuego) + marcador | `07` victorias del Leyma en su 1.ª ACB (2024-25, 7-27) |
+| 10 | O arquivo familiar | fichas de fechas + candado 4 cifras | 15/11/2016, 17/06/2022 → `2805` (28/05, inicio de la relación) |
+| 11 | O noso fogar | reforma (puzle "luces fuera" 3×3) + letrero de Aldán | O **CHINCHORRO** |
+| 12 | Arquivo temporal | ordenar recuerdos + Gonzalo NPC | Torre → Nova York → Voda → Maldivas → Martiño e Xoel |
+| 13 | A caixa forte | caja fuerte | `FINAL_CODE` (lo das tú en persona) |
 
-Cada fase da un fragmento. El décimo "fragmento" es la pista que das tú en persona.
+Cada capítulo da un fragmento (12). El 13.º es la pista que das tú en persona.
+La **orden** se cambia en `PHASE_LIST` al final de `js/phases.js` (los números se recalculan solos).
 
-**Revisa la fase 9**: asumí que el primer viaje a Nueva York fue antes de la boda.
+**Revisa el capítulo 12**: asumí que el primer viaje a Nueva York fue antes de la boda.
 Si no es así, cambia `CONTENT.tempo.order` en `js/phases.js`.
 
----
+### Calendario
+- Un capítulo por día: el siguiente se abre **a las 00:00** del día siguiente a completar el anterior
+  (`UNLOCK_MODE: "midnight"`; con `"24h"` vuelve al bloqueo de 24 h).
+- La caja fuerte **nunca se abre antes de `FINAL_DATE`** (`"2026-12-01"`). Si Tania llega antes,
+  ve una cuenta atrás con "A caixa forte só se abrirá o 1 de decembro".
+- Para acabar exactamente el 1 de diciembre con 13 capítulos, Tania debe empezar **el 19 de noviembre**.
+  Si empieza antes, esperará en el capítulo 13; si empieza después, el final caerá más tarde.
+- El modo desarrollo (`?dev=1`) ignora la medianoche y la fecha final.
 
 ## Configuración (`js/config.js`)
 

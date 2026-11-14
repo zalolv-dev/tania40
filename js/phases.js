@@ -10,6 +10,8 @@ import { createCodeLock } from "./puzzles/lockPuzzle.js";
 import { createPhotoPuzzle } from "./puzzles/photoPuzzle.js";
 import { createFamilyArchive } from "./puzzles/childrenPuzzle.js";
 import { createTokenBoard, placementMatches } from "./puzzles/tokenBoard.js";
+import { createFreeThrows } from "./puzzles/basketGame.js";
+import { createReform } from "./puzzles/reformPuzzle.js";
 
 // ---------------------------------------------------------------------
 //  OBXECTOS
@@ -25,21 +27,10 @@ export const ITEMS = {
   lua: { id: "frag-lua", name: "Fragmento lunar", icon: "moon", desc: "Soa baixiño cando ninguén mira." },
   foto: { id: "foto-restaurada", name: "Fotografía restaurada", icon: "photo", desc: "A imaxe estaba rota. A lembranza, non." },
   familia: { id: "frag-familia", name: "Fragmento familiar", icon: "family", desc: "28 · 05. O día no que comezou a historia que traería dous novos protagonistas." },
-  tempo: { id: "frag-tempo", name: "Fragmento do tempo", icon: "clock", desc: "Todos os recordos, por fin, na súa orde." }
-};
-
-// Obxectos que se consideran obtidos ao rematar cada fase (útil para a consola).
-export const PHASE_ITEMS = {
-  1: [ITEMS.torre],
-  2: [ITEMS.postal, ITEMS.ny],
-  3: [ITEMS.maldivas],
-  4: [ITEMS.voda],
-  5: [ITEMS.saba, ITEMS.hotel],
-  6: [ITEMS.lua],
-  7: [ITEMS.foto],
-  8: [ITEMS.familia],
-  9: [ITEMS.tempo],
-  10: []
+  tempo: { id: "frag-tempo", name: "Fragmento do tempo", icon: "clock", desc: "Todos os recordos, por fin, na súa orde." },
+  mergullo: { id: "frag-mergullo", name: "Caderno de mergullo", icon: "fish", desc: "Catro animais rexistrados e unha mergulladora que non quería saír da auga." },
+  leyma: { id: "frag-leyma", name: "Carné de socio", icon: "ball", desc: "Leyma Coruña. Socios nas boas e nas malas (sobre todo nas malas)." },
+  fogar: { id: "frag-fogar", name: "Chave do fogar", icon: "house", desc: "Abre unha casa que xa é un fogar. E, moi pronto, outra en Aldán." }
 };
 
 // ---------------------------------------------------------------------
@@ -224,10 +215,96 @@ export const CONTENT = {
     hints: ["Todo comezou nun faro.", "A voda e a lúa de mel van xuntas. A familia chegou despois."]
   },
 
+  // Mergullo nas Maldivas (pregunta de cultura xeral; pódese buscar en Google)
+  mergullo: {
+    intro: [
+      "Volvemos ás Maldivas. Esta vez, baixo a auga.",
+      "Alí Tania descubriu o mergullo... e case se converte nunha das cousas que máis desfrutou na vida.",
+      "Rexistra no caderno de mergullo os catro animais desta inmersión."
+    ],
+    creatures: {
+      manta: { label: "Manta", log: "Raia manta: ás de varios metros. Parece voar baixo a auga, sen ningunha présa." },
+      whaleshark: { label: "Quenlla balea", log: "Quenlla balea: o peixe máis grande do mundo. Enorme, pacífica, e só come plancto." },
+      turtle: { label: "Tartaruga", log: "Tartaruga mariña: leva séculos nadando por aquí e non ten intención ningunha de apurarse." },
+      clown: { label: "Peixe pallaso", log: "Peixe pallaso: vive entre os tentáculos dunha anémona. A ela non lle pica; a el non lle importa o resto do mundo." }
+    },
+    instructor: ["O instrutor escribe algo na súa lousa submarina e ensínacha:"],
+    question: "Hai un atol nas Maldivas onde se poden ver quenllas balea durante todo o ano. Cal é?",
+    feedback: {
+      baa: ["Baa é o reino das mantas: alí está a baía de Hanifaru.", "As quenllas balea prefiren outro atol, máis ao sur."],
+      male: ["Malé ten aeroporto e moito tráfico.", "Quenllas balea, non tantas."],
+      none: ["O instrutor nega coa cabeza.", "(Debaixo da auga é o único xeito de dicir que non.)"]
+    },
+    success: [
+      "ATOL ARI SUR.",
+      "Alí as quenllas balea pasean todo o ano, protexidas nunha área mariña.",
+      "E as mantas? Na baía de Hanifaru, no atol Baa, reserva da biosfera da UNESCO.",
+      "Inmersión rexistrada. Profundidade: moita. Felicidade: máis."
+    ],
+    hints: ["Non pasa nada por buscalo: o instrutor tamén tivo que estudalo.", "O seu nome ten só tres letras... e un apelido: Sur."]
+  },
+
+  // Leyma Coruña (datos comprobados: primeira tempada ACB 2024-25, balance 7-27)
+  leyma: {
+    intro: [
+      "O Coliseum. Noite de partido.",
+      "Hai uns anos fixestes socios do Leyma Coruña e, desde entón, as fins de semana teñen outro ritmo."
+    ],
+    throws: ["O teu xogador favorito, Guillem Jou, pásache o balón.", "Tres tiros libres. Toca LANZAR cando o indicador estea na zona verde."],
+    short: ["Curto. Nin rozou o aro."],
+    long: ["Longo. Taboleiro... e fóra."],
+    scored: ["Dentro!", "Dentro outra vez! O Coliseum ferve.", "TRES DE TRES!"],
+    board: [
+      "O marcador ilumínase cunha pregunta só para socios de verdade:",
+      "Na primeira tempada da historia do club na ACB (2024-25), cantas vitorias conseguiu o Leyma?"
+    ],
+    code: "07",
+    losses: ["Esas foron as derrotas.", "Mellor non lembralas."],
+    tooMany: ["Iso quixeramos...", "Foi unha tempada bastante máis dura."],
+    tooFew: ["Algunha máis houbo.", "Poucas, pero houbo."],
+    success: [
+      "7 VITORIAS.",
+      "Poucas? Si. Pero o Coliseum encheuse igual.",
+      "Un ano despois o Leyma volveu subir, e agora está outra vez na ACB.",
+      "Os socios non abandonan. Nin nas derrotas."
+    ],
+    hints: ["Foi unha tempada dura: o equipo rematou último e baixou.", "Busca \"Leyma Coruña ACB 2024-25\": o balance foi de X vitorias e 27 derrotas."]
+  },
+
+  // A reforma da casa + a casiña de Aldán
+  fogar: {
+    intro: [
+      "A REFORMA",
+      "Po, orzamentos que medran sós e decisións imposibles sobre azulexos.",
+      "Arranxa todas as pezas da casa. Ollo: cada arranxo move tamén as pezas do lado. Coma nunha obra de verdade."
+    ],
+    solved: [
+      "Obra rematada.",
+      "Moitos dores de cabeza e bastantes cartos... pero agora tedes unha casa que é, de verdade, o voso fogar."
+    ],
+    aldanIntro: [
+      "E agora, segunda obra: a casiña de Tania en Aldán, un paraíso nas Rías Baixas.",
+      "Despois dunha xornada de obra só hai un sitio onde ir... pero o vento tirou as letras do letreiro."
+    ],
+    house: ["A casiña de Aldán.", "Andamios, po... e moita ilusión."],
+    ria: ["A ría de Aldán.", "Hai sitios que non precisan filtro."],
+    restaurant: ["O voso restaurante favorito.", "Polo menos o era cando tiña letreiro."],
+    word: "CHINCHORRO",
+    scrambled: "HORCINOCHR",
+    signWrong: ["Ese restaurante non existe.", "E se existise, non sería o voso favorito."],
+    success: [
+      "O CHINCHORRO.",
+      "Mesa de sempre, vistas á ría e a sensación de que a obra pode esperar ata mañá.",
+      "Aldán xa é un pouco máis fogar."
+    ],
+    hints: ["Cada toque cambia a peza tocada e as que ten arriba, abaixo e aos lados.", "Truco de obreiro: se unha peza está en obras, toca a que ten xusto debaixo. Vai fila por fila."],
+    signHints: ["É o voso restaurante favorito en Aldán.", "Empeza por CH... e remata en ...ORRO."]
+  },
+
   caixa: {
     intro: [
-      "Nove fragmentos. Unha caixa forte. E unha clave que esta máquina non coñece.",
-      "O décimo fragmento non está aquí: terás que pedirllo a Gonzalo."
+      "{n} fragmentos. Unha caixa forte. E unha clave que esta máquina non coñece.",
+      "O último fragmento non está aquí: terás que pedirllo a Gonzalo."
     ],
     eggs: {
       "2805": ["Un bo comezo.", "Pero non é o final."],
@@ -935,24 +1012,259 @@ function phase10(ctx) {
     }
   });
   stage.append(h("div.stage-overlay", {}, lock.top));
-  ui.say(C.intro);
+  const n = numberGl(PHASES.length - 1);
+  ui.say(C.intro.map((t) => t.replace("{n}", n.charAt(0).toUpperCase() + n.slice(1))));
   ui.controls(lock.keys);
 }
 
 // ---------------------------------------------------------------------
-//  Definición das fases
+//  MERGULLO NAS MALDIVAS
 // ---------------------------------------------------------------------
-export const PHASES = [
-  { id: 1, title: "A Torre de Hércules", reward: ITEMS.torre, render: phase1 },
-  { id: 2, title: "Nova York", reward: ITEMS.ny, render: phase2 },
-  { id: 3, title: "Maldivas", reward: ITEMS.maldivas, render: phase3 },
-  { id: 4, title: "O candado da voda", reward: ITEMS.voda, render: phase4 },
-  { id: 5, title: "O incidente da saba", reward: ITEMS.hotel, render: phase5 },
-  { id: 6, title: "Con la luna llena", reward: ITEMS.lua, render: phase6 },
-  { id: 7, title: "Fotografía rota", reward: ITEMS.foto, render: phase7 },
-  { id: 8, title: "O arquivo familiar", reward: ITEMS.familia, render: phase8 },
-  { id: 9, title: "Arquivo temporal", reward: ITEMS.tempo, render: phase9 },
-  { id: 10, title: "A caixa forte", reward: null, render: phase10 }
+function phaseDive(ctx) {
+  const C = CONTENT.mergullo;
+  const { ui, pst } = ctx;
+  ui.stage(sceneWrap(scenes.underwater()), "scene-stage");
+  pst.logged = pst.logged || [];
+  const keys = Object.keys(C.creatures);
+
+  const showQuestion = () => {
+    const hintEl = hintsFor(ctx, C.hints);
+    ui.controls(ui.answerForm({
+      label: C.question,
+      placeholder: "Nome do atol…",
+      onSubmit: (v, input) => {
+        const r = V.validateWhaleSharkAtoll(v);
+        if (r.ok) {
+          pst.solved = true;
+          ctx.save();
+          ctx.audio.sfx("success");
+          ui.say(C.success);
+          ui.controls(continueBtn(ctx));
+        } else {
+          ctx.attempt();
+          ctx.audio.sfx("error");
+          ui.say(C.feedback[r.code] || C.feedback.none);
+          input.select();
+          hintEl.refresh();
+        }
+      }
+    }), hintEl);
+  };
+
+  const renderLog = () => {
+    if (pst.solved) return ui.controls(continueBtn(ctx));
+    if (pst.logged.length >= keys.length) return showQuestion();
+    ui.controls(h("div.dive-log", {},
+      h("div.dive-log-title", {}, `CADERNO DE MERGULLO · ${pst.logged.length}/${keys.length}`),
+      ...keys.map((k) => h("div.dive-log-row" + (pst.logged.includes(k) ? ".done" : ""), {}, pst.logged.includes(k) ? `✓ ${C.creatures[k].label}` : "· ???"))));
+  };
+
+  const tap = (k) => {
+    const c = C.creatures[k];
+    if (!pst.logged.includes(k)) {
+      pst.logged.push(k);
+      ctx.audio.sfx("item");
+      ctx.save();
+    }
+    if (!pst.solved && pst.logged.length >= keys.length) ui.say([c.log, ...C.instructor, C.question]);
+    else ui.say([c.log]);
+    renderLog();
+  };
+
+  ui.hotspots([
+    { label: C.creatures.manta.label, x: 7, y: 9, w: 32, h: 24, onTap: () => tap("manta") },
+    { label: C.creatures.whaleshark.label, x: 51, y: 32, w: 45, h: 20, onTap: () => tap("whaleshark") },
+    { label: C.creatures.turtle.label, x: 11, y: 58, w: 20, h: 16, onTap: () => tap("turtle") },
+    { label: C.creatures.clown.label, x: 66, y: 70, w: 18, h: 20, onTap: () => tap("clown") }
+  ]);
+
+  if (pst.solved) ui.say(C.success, { instant: true });
+  else if (pst.logged.length >= keys.length) ui.say([...C.instructor, C.question], { instant: true });
+  else ui.say(C.intro);
+  renderLog();
+}
+
+// ---------------------------------------------------------------------
+//  LEYMA CORUÑA
+// ---------------------------------------------------------------------
+function phaseBasket(ctx) {
+  const C = CONTENT.leyma;
+  const { ui, pst } = ctx;
+
+  const part2 = () => {
+    const stage = ui.stage(sceneWrap(scenes.coliseum()), "scene-stage lock-stage");
+    pst.codeState = pst.codeState || { attempts: 0, hints: 0 };
+    const lock = createCodeLock({
+      length: C.code.length,
+      kind: "none",
+      label: "Vitorias no marcador",
+      onSubmit: async (code) => {
+        if (code === C.code) {
+          pst.solved = true;
+          ctx.save();
+          ctx.audio.sfx("success");
+          await lock.open();
+          stage.querySelector(".scoreboard").classList.add("win");
+          ui.say(C.success);
+          ui.controls(continueBtn(ctx));
+          return { ok: true };
+        }
+        pst.codeState.attempts++;
+        ctx.save({ silent: true });
+        const n = parseInt(code, 10);
+        ui.say(n === 27 ? C.losses : n > 7 ? C.tooMany : C.tooFew);
+        hintEl.refresh();
+        return { ok: false };
+      }
+    });
+    stage.append(h("div.stage-overlay", {},
+      h("div.scoreboard" + (pst.solved ? ".win" : ""), {},
+        h("div.sb-title", {}, "LEYMA CORUÑA · ACB 2024-25"),
+        h("div.sb-label", {}, "VITORIAS"),
+        lock.top)));
+    const hintEl = ctx.ui.hintButton(pst.codeState, C.hints, CONFIG.HINT_AFTER_ATTEMPTS, () => ctx.save());
+    if (pst.solved) {
+      lock.top.querySelectorAll(".code-slot").forEach((el, i) => (el.textContent = C.code[i]));
+      ui.say(C.success, { instant: true });
+      ui.controls(continueBtn(ctx));
+      return;
+    }
+    ui.say(C.board);
+    ui.controls(lock.keys, hintEl);
+  };
+
+  if (pst.part === 2) return part2();
+
+  const stage = ui.stage(sceneWrap(scenes.coliseum()), "scene-stage");
+  const ball = stage.querySelector(".ball");
+  const game = createFreeThrows({
+    goal: 3,
+    pst,
+    ball,
+    save: () => ctx.save(),
+    onScore: (n) => ui.say([C.scored[n - 1] || "Dentro!"]),
+    onMiss: (kind) => ui.say(kind === "short" ? C.short : C.long),
+    onDone: () => {
+      ctx.audio.sfx("success");
+      setTimeout(() => {
+        pst.part = 2;
+        ctx.save({ silent: true });
+        part2();
+      }, 1400);
+    }
+  });
+  ui.say([...C.intro, ...C.throws]);
+  ui.controls(game.el);
+}
+
+// ---------------------------------------------------------------------
+//  O FOGAR: a reforma + Aldán
+// ---------------------------------------------------------------------
+function phaseHome(ctx) {
+  const C = CONTENT.fogar;
+  const { ui, pst } = ctx;
+
+  const part2 = () => {
+    ui.stage(sceneWrap(scenes.aldan()), "scene-stage");
+    pst.sign = pst.sign || { attempts: 0, hints: 0, placement: {} };
+    ui.hotspots([
+      { label: "Casiña", x: 1, y: 40, w: 31, h: 36, onTap: () => ui.say(C.house) },
+      { label: "Ría", x: 34, y: 44, w: 26, h: 20, onTap: () => ui.say(C.ria) },
+      { label: "Restaurante", x: 63, y: 38, w: 36, h: 38, onTap: () => ui.say(pst.solved ? C.success : C.restaurant) }
+    ]);
+    if (pst.solved) {
+      ui.say(C.success, { instant: true });
+      ui.controls(h("div.sign-done", {}, `O ${C.word}`), continueBtn(ctx));
+      return;
+    }
+    const tokens = C.scrambled.split("").map((l, i) => ({ id: "l" + i, label: l }));
+    const slots = C.word.split("").map((_, i) => ({ id: "s" + i, hint: "_" }));
+    const expected = Object.fromEntries(C.word.split("").map((l, i) => ["s" + i, l]));
+    const hintEl = ctx.ui.hintButton(pst.sign, C.signHints, CONFIG.HINT_AFTER_ATTEMPTS, () => ctx.save());
+    const board = createTokenBoard({
+      groups: [{ label: "O", slots }],
+      tokens,
+      placement: pst.sign.placement,
+      save: () => ctx.save(),
+      onChange: (pl) => {
+        if (placementMatches(pl, tokens, expected)) {
+          pst.solved = true;
+          ctx.save({ silent: true });
+          board.lock();
+          ctx.audio.sfx("success");
+          ui.say(C.success);
+          ui.controls(board.el, continueBtn(ctx));
+        } else if (slots.every((sl) => pl[sl.id])) {
+          pst.sign.attempts++;
+          ctx.save({ silent: true });
+          ctx.audio.sfx("error");
+          ui.say(C.signWrong);
+          hintEl.refresh();
+        }
+      }
+    });
+    board.el.classList.add("sign-board");
+    ui.say(C.aldanIntro);
+    ui.controls(board.el, hintEl);
+  };
+
+  if (pst.part === 2) return part2();
+
+  const stage = ui.stage(null, "puzzle-stage reform-stage");
+  const hintEl = hintsFor(ctx, C.hints);
+  const reform = createReform({
+    pst,
+    save: (o) => ctx.save(o),
+    onMove: (st) => {
+      pst.attempts = Math.floor(st.moves / 6);
+      hintEl.refresh();
+    },
+    onSolved: () => {
+      ctx.audio.sfx("success");
+      ui.say(C.solved);
+      ui.controls(btn("IR A ALDÁN", () => {
+        pst.part = 2;
+        ctx.save();
+        part2();
+      }, "primary"));
+    }
+  });
+  stage.append(reform.el);
+  if (reform.solved()) {
+    ui.say(C.solved, { instant: true });
+    ui.controls(btn("IR A ALDÁN", () => {
+      pst.part = 2;
+      ctx.save();
+      part2();
+    }, "primary"));
+  } else {
+    ui.say(C.intro);
+    ui.controls(hintEl);
+  }
+}
+
+// ---------------------------------------------------------------------
+//  Definición das fases (a orde do array é a orde do xogo)
+// ---------------------------------------------------------------------
+const PHASE_LIST = [
+  { key: "torre", title: "A Torre de Hércules", items: [ITEMS.torre], reward: ITEMS.torre, render: phase1 },
+  { key: "ny", title: "Nova York", items: [ITEMS.postal, ITEMS.ny], reward: ITEMS.ny, render: phase2 },
+  { key: "maldivas", title: "Maldivas", items: [ITEMS.maldivas], reward: ITEMS.maldivas, render: phase3 },
+  { key: "voda", title: "O candado da voda", items: [ITEMS.voda], reward: ITEMS.voda, render: phase4 },
+  { key: "saba", title: "O incidente da saba", items: [ITEMS.saba, ITEMS.hotel], reward: ITEMS.hotel, render: phase5 },
+  { key: "mergullo", title: "Baixo o mar das Maldivas", items: [ITEMS.mergullo], reward: ITEMS.mergullo, render: phaseDive },
+  { key: "lua", title: "Con la luna llena", items: [ITEMS.lua], reward: ITEMS.lua, render: phase6 },
+  { key: "foto", title: "Fotografía rota", items: [ITEMS.foto], reward: ITEMS.foto, render: phase7 },
+  { key: "leyma", title: "Noite no Coliseum", items: [ITEMS.leyma], reward: ITEMS.leyma, render: phaseBasket },
+  { key: "familia", title: "O arquivo familiar", items: [ITEMS.familia], reward: ITEMS.familia, render: phase8 },
+  { key: "fogar", title: "O noso fogar", items: [ITEMS.fogar], reward: ITEMS.fogar, render: phaseHome },
+  { key: "tempo", title: "Arquivo temporal", items: [ITEMS.tempo], reward: ITEMS.tempo, render: phase9 },
+  { key: "caixa", title: "A caixa forte", items: [], reward: null, render: phase10 }
 ];
 
+export const PHASES = PHASE_LIST.map((p, i) => ({ ...p, id: i + 1 }));
+export const PHASE_ITEMS = Object.fromEntries(PHASES.map((p) => [p.id, p.items]));
 export const getPhase = (id) => PHASES.find((p) => p.id === id);
+
+const NUMBERS_GL = { 8: "oito", 9: "nove", 10: "dez", 11: "once", 12: "doce", 13: "trece", 14: "catorce", 15: "quince", 16: "dezaseis", 17: "dezasete", 18: "dezaoito", 19: "dezanove", 20: "vinte" };
+export const numberGl = (n) => NUMBERS_GL[n] || String(n);

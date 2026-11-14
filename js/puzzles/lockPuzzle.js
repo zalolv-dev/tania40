@@ -56,7 +56,7 @@ export function createCodeLock(opts) {
   const length = opts.length || 4;
   let value = "";
   let busy = false;
-  const visual = h("div.lock-visual." + (opts.kind || "padlock"), { html: opts.kind === "safe" ? SAFE_SVG : PADLOCK_SVG });
+  const visual = h("div.lock-visual." + (opts.kind || "padlock"), { html: opts.kind === "safe" ? SAFE_SVG : opts.kind === "none" ? "" : PADLOCK_SVG });
   const slots = h("div.code-slots", { role: "group", "aria-label": opts.label || "Código" });
   const live = h("div.sr-only", { "aria-live": "polite" });
 

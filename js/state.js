@@ -4,7 +4,10 @@ import { CONFIG } from "./config.js";
 const DEV_FLAG_KEY = "tania40:dev-allowed";
 const CLOCK_TOLERANCE_MS = 2 * 60 * 1000; // pequenos axustes de reloxo non contan
 
-export const TOTAL_PHASES = 10;
+export let TOTAL_PHASES = 13;
+export function setTotalPhases(n) {
+  TOTAL_PHASES = n;
+}
 
 export function freshState() {
   const now = Date.now();
@@ -55,10 +58,11 @@ export function sanitize(raw) {
   s.version = CONFIG.STATE_VERSION;
 
   // Se cambiou a foto do puzle, reiníciase só ese puzle.
-  const p7 = s.phaseState[7];
-  if (p7 && p7.photoPuzzle && p7.photoPuzzle.imageVersion !== CONFIG.PHOTO_PUZZLE_VERSION && !p7.photoPuzzle.solved) {
-    delete p7.photoPuzzle;
-  }
+  Object.values(s.phaseState).forEach((ps) => {
+    if (ps && ps.photoPuzzle && ps.photoPuzzle.imageVersion !== CONFIG.PHOTO_PUZZLE_VERSION && !ps.photoPuzzle.solved) {
+      delete ps.photoPuzzle;
+    }
+  });
   return s;
 }
 
@@ -157,6 +161,32 @@ export function lockMs() {
   return isDev() ? CONFIG.DEV_PHASE_LOCK_MS : CONFIG.PHASE_LOCK_MS;
 }
 
+export function finalDateMs() {
+  if (!CONFIG.FINAL_DATE) return 0;
+  const [y, m, d] = String(CONFIG.FINAL_DATE).split("-").map(Number);
+  return new Date(y, m - 1, d, 0, 0, 0, 0).getTime() || 0;
+}
+
+function nextMidnight(from = Date.now()) {
+  const d = new Date(from);
+  d.setHours(24, 0, 0, 0);
+  return d.getTime();
+}
+
+// Momento no que se desbloquea o capítulo seguinte ao completado.
+export function unlockTimeAfter(completedId, now = Date.now()) {
+  if (isDev()) return now + CONFIG.DEV_PHASE_LOCK_MS;
+  let t = CONFIG.UNLOCK_MODE === "24h" ? now + CONFIG.PHASE_LOCK_MS : nextMidnight(now);
+  if (completedId + 1 === TOTAL_PHASES) t = Math.max(t, finalDateMs());
+  return t;
+}
+
+// True se o bloqueo actual é a espera pola data do final.
+export function waitingFinalDate() {
+  const s = get();
+  return s.currentPhase === TOTAL_PHASES && finalDateMs() > 0 && s.nextUnlockAt >= finalDateMs() && remainingMs() > 0;
+}
+
 export function remainingMs() {
   return Math.max(0, get().nextUnlockAt - Date.now());
 }
@@ -187,7 +217,7 @@ export function completePhase(id) {
     s.finalUnlocked = true;
     s.nextUnlockAt = 0;
   } else {
-    s.nextUnlockAt = Date.now() + lockMs();
+    s.nextUnlockAt = unlockTimeAfter(id);
   }
   save();
 }

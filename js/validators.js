@@ -73,6 +73,16 @@ export function validateSong(input) {
   return { ok: false, code: "none" };
 }
 
+// ---------- MERGULLO · atol das quenllas balea ----------
+export function validateWhaleSharkAtoll(input) {
+  const n = normalize(input);
+  if (!n) return { ok: false, code: "empty" };
+  if (/\bari\b/.test(n) || /\balif\b/.test(n) || /\bariatholhu\b/.test(n)) return { ok: true };
+  if (/\b(baa|hanifaru)\b/.test(n)) return { ok: false, code: "baa" };
+  if (/\b(male|kaafu)\b/.test(n)) return { ok: false, code: "male" };
+  return { ok: false, code: "none" };
+}
+
 // ---------- Xenérico ----------
 export function matchesAny(input, accepted) {
   const n = normalize(input);

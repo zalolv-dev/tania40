@@ -133,7 +133,7 @@ FINAL_CODE: "2026",
 ```
 Solo dígitos. La caja adapta el número de casillas a la longitud.
 Mientras sea `"TODO"` la caja no se abre (y lo dice).
-Easter eggs ya incluidos: `2805`, `2507`, `250714`, `2014`, `1622`, `0000`, `1234`, `4040`.
+Código actual: **`4040`**. Easter eggs: `2805`, `2507`, `250714`, `2014`, `1622`, `0000`, `1234`, `0040`.
 Se editan en `CONTENT.caixa.eggs` (`js/phases.js`).
 
 ### Regalo

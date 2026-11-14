@@ -351,7 +351,6 @@ export const CONTENT = {
       "2014": ["2014: o ano no que todo se fixo oficial.", "A caixa aproba a nostalxia, pero quere outra cousa."],
       "0000": ["Iso é o que poñería calquera.", "E ti non es calquera."],
       "1234": ["Iso é o que poñería calquera.", "E ti non es calquera."],
-      "4040": ["40, si. Pero non é tan doado."],
       "0040": ["40, si. Pero non é tan doado."]
     },
     wrong: [

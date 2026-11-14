@@ -57,7 +57,7 @@ export const CONFIG = {
 
   // Clave da caixa forte final. Só díxitos. A lonxitude da caixa adáptase.
   // Mentres sexa "TODO" a caixa usa 4 díxitos e non se pode abrir.
-  FINAL_CODE: "TODO",
+  FINAL_CODE: "4040",
 
   // Fotos que aparecen na revelación final (opcional).
   // Exemplo: ["assets/images/final-1.jpg", "assets/images/final-2.jpg"]

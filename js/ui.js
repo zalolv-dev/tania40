@@ -142,7 +142,7 @@ const ICONS = {
   key: "⚿",
   family: "♥",
   clock: "⧗",
-  fish: "≋",
+  lentil: "◉",
   ball: "●",
   house: "⌂"
 };

@@ -494,17 +494,25 @@ body {
   to { transform: translateY(120vh) rotate(720deg); }
 }
 
-/* ---------- Mergullo ---------- */
-.creature { animation: float 2.6s steps(4) infinite; }
-.creature.whaleshark { animation-duration: 3.4s; }
-.school { animation: swim 9s steps(36) infinite alternate; }
-@keyframes swim { from { transform: translateX(-60px); } to { transform: translateX(60px); } }
-.bubble { animation: bubble 3s steps(6) infinite; }
-@keyframes bubble { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-30px); opacity: 0; } }
-.dive-log { background: #08324a; border: 2px solid #1b8fc4; padding: 8px 10px; display: grid; gap: 3px; }
+/* ---------- Listas de probas ---------- */
+.dive-log { background: #1b1440; border: 2px solid var(--panel-hi); padding: 8px 10px; display: grid; gap: 3px; }
 .dive-log-title { color: var(--sky); font-size: 12px; letter-spacing: 2px; }
-.dive-log-row { color: #5d7f99; font-size: 14px; }
+.dive-log-row { color: #6b6590; font-size: 14px; }
 .dive-log-row.done { color: var(--green); }
+
+/* ---------- Concurso ---------- */
+.tv-screen { position: absolute; left: 8.5%; top: 29.5%; width: 26.5%; height: 24%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--gold); text-align: center; z-index: 3; }
+.tv-title { font-size: clamp(8px, 2.6vw, 12px); letter-spacing: 2px; color: var(--sky); animation: glow 1.6s steps(2) infinite; }
+.quiz-status { display: flex; flex-direction: column; align-items: center; }
+.quiz-lives { color: var(--pink); font-size: clamp(11px, 3.6vw, 16px); letter-spacing: 2px; }
+.quiz-progress { font-size: clamp(10px, 3vw, 14px); }
+.quiz { display: flex; flex-direction: column; gap: 8px; }
+.quiz-q { color: var(--gold); font-size: 15px; }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.quiz-opt { text-transform: none; font-size: 14px; padding: 10px 8px; }
+.quiz-opt.right { background: #2f8a4f; }
+.quiz-opt.wrong { background: var(--red); }
+.accused .eye { animation: eyeblink 3s steps(1) infinite; }
 
 /* ---------- Baloncesto ---------- */
 .free-throws { display: flex; flex-direction: column; gap: 10px; }

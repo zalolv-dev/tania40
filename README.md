@@ -60,7 +60,7 @@ tania40/
 
 ---
 
-## Los 13 capítulos
+## Los 14 capítulos
 
 | # | Capítulo | Mecánica | Solución |
 |---|----------|----------|----------|
@@ -69,19 +69,21 @@ tania40/
 | 3 | Maldivas | encontrar palabras + completar frase | VIAXE · LÚA · LEMBRANZA |
 | 4 | O candado da voda (Pazo de Mondoi) | candado 6 cifras | `250714` |
 | 5 | O incidente da saba | examinar cama + respuesta libre | "Gonzalo" (el que se quejó en recepción) |
-| 6 | Baixo o mar das Maldivas | registrar 4 animales + pregunta de cultura general | atolón **Ari Sur** (tiburones ballena todo el año) |
+| 6 | O concurso do apartamento | concurso de Friends: 7 preguntas, 3 vidas | Muriel · Transponster · Hugsy · Tres · Regina Phalange · Dr. Drake Ramoray · Jack e Erica |
 | 7 | Con la luna llena | respuesta libre + QR Spotify | "Con la luna llena" (sin exigir Melendi) |
 | 8 | Fotografía rota | puzle 3×3 por intercambio | — |
 | 9 | Noite no Coliseum | 3 tiros libres (minijuego) + marcador | `07` victorias del Leyma en su 1.ª ACB (2024-25, 7-27) |
-| 10 | O arquivo familiar | fichas de fechas + candado 4 cifras | 15/11/2016, 17/06/2022 → `2805` (28/05, inicio de la relación) |
-| 11 | O noso fogar | reforma (puzle "luces fuera" 3×3) + letrero de Aldán | O **CHINCHORRO** |
-| 12 | Arquivo temporal | ordenar recuerdos + Gonzalo NPC | Torre → Nova York → Voda → Maldivas → Martiño e Xoel |
-| 13 | A caixa forte | caja fuerte | `FINAL_CODE` (lo das tú en persona) |
+| 10 | O xuízo das lentellas | examinar 3 pruebas + veredicto | **Martiño** (las lentejas, absueltas) |
+| 11 | O arquivo familiar | fichas de fechas + candado 4 cifras | 15/11/2016, 17/06/2022 → `2805` (28/05, inicio de la relación) |
+| 12 | O noso fogar | reforma (puzle "luces fuera" 3×3) + letrero de Aldán | O **CHINCHORRO** |
+| 13 | Arquivo temporal | ordenar recuerdos + Gonzalo NPC | Torre → Nova York → Voda → Maldivas → Martiño e Xoel |
+| 14 | A caixa forte | caja fuerte | `FINAL_CODE` (lo das tú en persona) |
 
-Cada capítulo da un fragmento (12). El 13.º es la pista que das tú en persona.
+Cada capítulo da un fragmento (13). El 14.º es la pista que das tú en persona.
+Las preguntas de Friends están en `CONTENT.friends.questions` (`answer` debe coincidir con una de las `options`).
 La **orden** se cambia en `PHASE_LIST` al final de `js/phases.js` (los números se recalculan solos).
 
-**Revisa el capítulo 12**: asumí que el primer viaje a Nueva York fue antes de la boda.
+**Revisa el capítulo 13**: asumí que el primer viaje a Nueva York fue antes de la boda.
 Si no es así, cambia `CONTENT.tempo.order` en `js/phases.js`.
 
 ### Calendario
@@ -89,8 +91,8 @@ Si no es así, cambia `CONTENT.tempo.order` en `js/phases.js`.
   (`UNLOCK_MODE: "midnight"`; con `"24h"` vuelve al bloqueo de 24 h).
 - La caja fuerte **nunca se abre antes de `FINAL_DATE`** (`"2026-12-01"`). Si Tania llega antes,
   ve una cuenta atrás con "A caixa forte só se abrirá o 1 de decembro".
-- Para acabar exactamente el 1 de diciembre con 13 capítulos, Tania debe empezar **el 19 de noviembre**.
-  Si empieza antes, esperará en el capítulo 13; si empieza después, el final caerá más tarde.
+- Para acabar exactamente el 1 de diciembre con 14 capítulos, Tania debe empezar **el 18 de noviembre**.
+  Si empieza antes, esperará en el capítulo 14; si empieza después, el final caerá más tarde.
 - El modo desarrollo (`?dev=1`) ignora la medianoche y la fecha final.
 
 ## Configuración (`js/config.js`)

@@ -12,6 +12,7 @@ import { createFamilyArchive } from "./puzzles/childrenPuzzle.js";
 import { createTokenBoard, placementMatches } from "./puzzles/tokenBoard.js";
 import { createFreeThrows } from "./puzzles/basketGame.js";
 import { createReform } from "./puzzles/reformPuzzle.js";
+import { createQuiz } from "./puzzles/quizShow.js";
 
 // ---------------------------------------------------------------------
 //  OBXECTOS
@@ -28,7 +29,8 @@ export const ITEMS = {
   foto: { id: "foto-restaurada", name: "Fotografía restaurada", icon: "photo", desc: "A imaxe estaba rota. A lembranza, non." },
   familia: { id: "frag-familia", name: "Fragmento familiar", icon: "family", desc: "28 · 05. O día no que comezou a historia que traería dous novos protagonistas." },
   tempo: { id: "frag-tempo", name: "Fragmento do tempo", icon: "clock", desc: "Todos os recordos, por fin, na súa orde." },
-  mergullo: { id: "frag-mergullo", name: "Caderno de mergullo", icon: "fish", desc: "Catro animais rexistrados e unha mergulladora que non quería saír da auga." },
+  friends: { id: "frag-friends", name: "Chave do apartamento", icon: "key", desc: "Gañada nun concurso de preguntas. Co seu marco amarelo e todo." },
+  lentellas: { id: "frag-lentellas", name: "Lentella absolta", icon: "lentil", desc: "Inocente de todos os cargos. Desde aquela noite, na casa trátana con moito respecto." },
   leyma: { id: "frag-leyma", name: "Carné de socio", icon: "ball", desc: "Leyma Coruña. Socios nas boas e nas malas (sobre todo nas malas)." },
   fogar: { id: "frag-fogar", name: "Chave do fogar", icon: "house", desc: "Abre unha casa que xa é un fogar. E, moi pronto, outra en Aldán." }
 };
@@ -215,33 +217,59 @@ export const CONTENT = {
     hints: ["Todo comezou nun faro.", "A voda e a lúa de mel van xuntas. A familia chegou despois."]
   },
 
-  // Mergullo nas Maldivas (pregunta de cultura xeral; pódese buscar en Google)
-  mergullo: {
+  // Friends: concurso para fans de verdade. answer ten que coincidir exactamente cunha das options.
+  friends: {
     intro: [
-      "Volvemos ás Maldivas. Esta vez, baixo a auga.",
-      "Alí Tania descubriu o mergullo... e case se converte nunha das cousas que máis desfrutou na vida.",
-      "Rexistra no caderno de mergullo os catro animais desta inmersión."
+      "Hai series que se ven. E hai series que se saben de memoria.",
+      "Benvida ao concurso do apartamento: sete preguntas sobre Friends e tres vidas. Só para fans de verdade."
     ],
-    creatures: {
-      manta: { label: "Manta", log: "Raia manta: ás de varios metros. Parece voar baixo a auga, sen ningunha présa." },
-      whaleshark: { label: "Quenlla balea", log: "Quenlla balea: o peixe máis grande do mundo. Enorme, pacífica, e só come plancto." },
-      turtle: { label: "Tartaruga", log: "Tartaruga mariña: leva séculos nadando por aquí e non ten intención ningunha de apurarse." },
-      clown: { label: "Peixe pallaso", log: "Peixe pallaso: vive entre os tentáculos dunha anémona. A ela non lle pica; a el non lle importa o resto do mundo." }
+    questions: [
+      { q: "Cal é o segundo nome de Chandler?", options: ["Francis", "Muriel", "Eugene", "Matthew"], answer: "Muriel" },
+      { q: "No concurso no que se xogan o apartamento, Rachel non sabe a que se dedica Chandler. Que responde?", options: ["Estatístico", "Contable", "Transponster", "Procesador de datos"], answer: "Transponster" },
+      { q: "Como se chama o pingüín de peluche de Joey?", options: ["Waddles", "Hugsy", "Pingu", "Snowy"], answer: "Hugsy" },
+      { q: "Cantas veces se divorcia Ross ao longo da serie?", options: ["Unha", "Dúas", "Catro", "Tres"], answer: "Tres" },
+      { q: "Que nome falso usa Phoebe cando quere facerse pasar por outra persoa?", options: ["Regina Phalange", "Ursula Pepper", "Phoebe Abbott", "Gina Bing"], answer: "Regina Phalange" },
+      { q: "Que personaxe interpreta Joey na telenovela Days of Our Lives?", options: ["Dr. Richard Burke", "Dr. Drake Ramoray", "Dr. Mike Hannigan", "Dr. Joey Tribbiani"], answer: "Dr. Drake Ramoray" },
+      { q: "Como se chaman os xemelgos de Monica e Chandler?", options: ["Ben e Emma", "Jack e Judy", "Jack e Erica", "Frank e Alice"], answer: "Jack e Erica" }
+    ],
+    right: ["Correcto!", "Iso é!", "Exacto. Fan de verdade.", "Nin dubidaches.", "Moi ben. Gunther estaría orgulloso.", "Correctísimo.", "Iso é!"],
+    wrong: [
+      "Ups. Iso non.",
+      "Non. E non, non estabades nun descanso.",
+      "Joey non comparte comida. E esta resposta non a comparte ninguén: está mal."
+    ],
+    gameOver: ["Sen vidas.", "Ata Ross volvería empezar despois disto. O concurso comeza de novo!"],
+    success: ["SETE DE SETE.", "O apartamento é teu.", "Podería alguén SER máis fan?"]
+  },
+
+  // A noite das lentellas (o día no que naceu Martiño)
+  lentellas: {
+    intro: [
+      "O XUÍZO DAS LENTELLAS",
+      "Unha noite, volvendo do ximnasio, Tania sentiuse rara. A cea fora lentellas, e a sentenza parecía clara.",
+      "Hoxe xúlgase aquela acusación. Examina as probas antes de dar o veredicto."
+    ],
+    evidence: {
+      accused: { label: "Acusadas", text: ["As lentellas, no banco dos acusados.", "Declaran: «Nós só eramos a cea»."] },
+      gym: { label: "Bolsa do ximnasio", text: ["Proba 1: a bolsa do ximnasio.", "Viñades de adestrar. Tania, embarazadísima, con máis enerxía ca o monitor."] },
+      witness: { label: "Testemuña", text: ["Proba 2: a testemuña, Gonzalo.", "Diagnóstico daquela noite: «Serán as lentellas». Estudos de medicina: ningún."] },
+      towel: { label: "Toalla", text: ["Proba 3: unha toalla e un charquiño sospeitoso.", "As lentellas, polo que se sabe, non adoitan facer iso."] }
     },
-    instructor: ["O instrutor escribe algo na súa lousa submarina e ensínacha:"],
-    question: "Hai un atol nas Maldivas onde se poden ver quenllas balea durante todo o ano. Cal é?",
-    feedback: {
-      baa: ["Baa é o reino das mantas: alí está a baía de Hanifaru.", "As quenllas balea prefiren outro atol, máis ao sur."],
-      male: ["Malé ten aeroporto e moito tráfico.", "Quenllas balea, non tantas."],
-      none: ["O instrutor nega coa cabeza.", "(Debaixo da auga é o único xeito de dicir que non.)"]
+    needed: ["gym", "witness", "towel"],
+    verdictQ: "Veredicto: quen foi o verdadeiro responsable do que pasou aquela noite?",
+    options: ["As lentellas", "O ximnasio", "O chourizo das lentellas", "Martiño"],
+    answer: "Martiño",
+    wrong: {
+      "As lentellas": ["Obxección! As lentellas teñen coartada:", "levan séculos cenándose sen facer nacer a ninguén."],
+      "O ximnasio": ["O ximnasio declara que el só pon as máquinas.", "O que pasou despois non é cousa súa."],
+      "O chourizo das lentellas": ["O chourizo é culpable de moitas cousas.", "Pero desta, non."]
     },
     success: [
-      "ATOL ARI SUR.",
-      "Alí as quenllas balea pasean todo o ano, protexidas nunha área mariña.",
-      "E as mantas? Na baía de Hanifaru, no atol Baa, reserva da biosfera da UNESCO.",
-      "Inmersión rexistrada. Profundidade: moita. Felicidade: máis."
-    ],
-    hints: ["Non pasa nada por buscalo: o instrutor tamén tivo que estudalo.", "O seu nome ten só tres letras... e un apelido: Sur."]
+      "MARTIÑO.",
+      "Que xa daquela tiña présa por coñecervos. Unhas horas despois, chegou á partida.",
+      "As lentellas quedan absoltas de todos os cargos.",
+      "Gonzalo, condenado a non volver diagnosticar nada nunca máis."
+    ]
   },
 
   // Leyma Coruña (datos comprobados: primeira tempada ACB 2024-25, balance 7-27)
@@ -1018,70 +1046,99 @@ function phase10(ctx) {
 }
 
 // ---------------------------------------------------------------------
-//  MERGULLO NAS MALDIVAS
+//  FRIENDS · O CONCURSO DO APARTAMENTO
 // ---------------------------------------------------------------------
-function phaseDive(ctx) {
-  const C = CONTENT.mergullo;
+function phaseFriends(ctx) {
+  const C = CONTENT.friends;
   const { ui, pst } = ctx;
-  ui.stage(sceneWrap(scenes.underwater()), "scene-stage");
-  pst.logged = pst.logged || [];
-  const keys = Object.keys(C.creatures);
+  const stage = ui.stage(sceneWrap(scenes.livingRoom()), "scene-stage");
+  const status = h("div.quiz-status");
+  stage.append(h("div.tv-screen", {}, h("div.tv-title", {}, "CONCURSO"), status));
 
-  const showQuestion = () => {
-    const hintEl = hintsFor(ctx, C.hints);
-    ui.controls(ui.answerForm({
-      label: C.question,
-      placeholder: "Nome do atol…",
-      onSubmit: (v, input) => {
-        const r = V.validateWhaleSharkAtoll(v);
-        if (r.ok) {
-          pst.solved = true;
-          ctx.save();
-          ctx.audio.sfx("success");
-          ui.say(C.success);
-          ui.controls(continueBtn(ctx));
-        } else {
-          ctx.attempt();
-          ctx.audio.sfx("error");
-          ui.say(C.feedback[r.code] || C.feedback.none);
-          input.select();
-          hintEl.refresh();
-        }
-      }
-    }), hintEl);
-  };
+  if (pst.solved) {
+    status.append(h("div.quiz-progress", {}, `${C.questions.length} / ${C.questions.length}`));
+    ui.say(C.success, { instant: true });
+    ui.controls(continueBtn(ctx));
+    return;
+  }
+  const quiz = createQuiz({
+    questions: C.questions,
+    lives: 3,
+    pst,
+    save: (o) => ctx.save(o),
+    status,
+    say: (lines) => ui.say(lines, { instant: true }),
+    texts: { right: C.right, wrong: C.wrong, gameOver: C.gameOver },
+    onWin: () => {
+      pst.solved = true;
+      ctx.save({ silent: true });
+      ctx.audio.sfx("success");
+      ui.say(C.success);
+      ui.controls(continueBtn(ctx));
+    }
+  });
+  ui.say(C.intro);
+  ui.controls(quiz.el);
+}
 
-  const renderLog = () => {
+// ---------------------------------------------------------------------
+//  O XUÍZO DAS LENTELLAS
+// ---------------------------------------------------------------------
+function phaseLentils(ctx) {
+  const C = CONTENT.lentellas;
+  const { ui, pst } = ctx;
+  ui.stage(sceneWrap(scenes.court()), "scene-stage");
+  pst.evidence = pst.evidence || [];
+
+  const renderControls = () => {
     if (pst.solved) return ui.controls(continueBtn(ctx));
-    if (pst.logged.length >= keys.length) return showQuestion();
-    ui.controls(h("div.dive-log", {},
-      h("div.dive-log-title", {}, `CADERNO DE MERGULLO · ${pst.logged.length}/${keys.length}`),
-      ...keys.map((k) => h("div.dive-log-row" + (pst.logged.includes(k) ? ".done" : ""), {}, pst.logged.includes(k) ? `✓ ${C.creatures[k].label}` : "· ???"))));
+    const found = C.needed.filter((k) => pst.evidence.includes(k)).length;
+    if (found < C.needed.length) {
+      return ui.controls(h("div.dive-log", {},
+        h("div.dive-log-title", {}, `PROBAS EXAMINADAS · ${found}/${C.needed.length}`),
+        ...C.needed.map((k) => h("div.dive-log-row" + (pst.evidence.includes(k) ? ".done" : ""), {}, pst.evidence.includes(k) ? `✓ ${C.evidence[k].label}` : "· ???"))));
+    }
+    const grid = h("div.quiz-options");
+    C.options.forEach((opt) => grid.append(btn(opt, () => verdict(opt), "quiz-opt")));
+    ui.controls(h("div.quiz", {}, h("div.quiz-q", {}, C.verdictQ), grid));
   };
 
-  const tap = (k) => {
-    const c = C.creatures[k];
-    if (!pst.logged.includes(k)) {
-      pst.logged.push(k);
+  const verdict = (opt) => {
+    if (opt === C.answer) {
+      pst.solved = true;
+      ctx.save();
+      ctx.audio.sfx("success");
+      ui.stageEl().append(h("div.stage-banner", {}, "ABSOLTAS!"));
+      ui.say(C.success);
+      renderControls();
+    } else {
+      ctx.attempt();
+      ctx.audio.sfx("error");
+      ui.say(C.wrong[opt] || ["Non."]);
+    }
+  };
+
+  const examine = (k) => {
+    ui.say(C.evidence[k].text);
+    if (C.needed.includes(k) && !pst.evidence.includes(k)) {
+      pst.evidence.push(k);
       ctx.audio.sfx("item");
       ctx.save();
+      renderControls();
     }
-    if (!pst.solved && pst.logged.length >= keys.length) ui.say([c.log, ...C.instructor, C.question]);
-    else ui.say([c.log]);
-    renderLog();
   };
 
   ui.hotspots([
-    { label: C.creatures.manta.label, x: 7, y: 9, w: 32, h: 24, onTap: () => tap("manta") },
-    { label: C.creatures.whaleshark.label, x: 51, y: 32, w: 45, h: 20, onTap: () => tap("whaleshark") },
-    { label: C.creatures.turtle.label, x: 11, y: 58, w: 20, h: 16, onTap: () => tap("turtle") },
-    { label: C.creatures.clown.label, x: 66, y: 70, w: 18, h: 20, onTap: () => tap("clown") }
+    { label: C.evidence.accused.label, x: 3, y: 44, w: 24, h: 34, onTap: () => examine("accused") },
+    { label: C.evidence.gym.label, x: 34, y: 70, w: 18, h: 18, onTap: () => examine("gym") },
+    { label: C.evidence.witness.label, x: 77, y: 32, w: 20, h: 38, onTap: () => examine("witness") },
+    { label: C.evidence.towel.label, x: 60, y: 78, w: 26, h: 16, onTap: () => examine("towel") }
   ]);
 
   if (pst.solved) ui.say(C.success, { instant: true });
-  else if (pst.logged.length >= keys.length) ui.say([...C.instructor, C.question], { instant: true });
+  else if (C.needed.every((k) => pst.evidence.includes(k))) ui.say([C.verdictQ], { instant: true });
   else ui.say(C.intro);
-  renderLog();
+  renderControls();
 }
 
 // ---------------------------------------------------------------------
@@ -1252,10 +1309,11 @@ const PHASE_LIST = [
   { key: "maldivas", title: "Maldivas", items: [ITEMS.maldivas], reward: ITEMS.maldivas, render: phase3 },
   { key: "voda", title: "O candado da voda", items: [ITEMS.voda], reward: ITEMS.voda, render: phase4 },
   { key: "saba", title: "O incidente da saba", items: [ITEMS.saba, ITEMS.hotel], reward: ITEMS.hotel, render: phase5 },
-  { key: "mergullo", title: "Baixo o mar das Maldivas", items: [ITEMS.mergullo], reward: ITEMS.mergullo, render: phaseDive },
+  { key: "friends", title: "O concurso do apartamento", items: [ITEMS.friends], reward: ITEMS.friends, render: phaseFriends },
   { key: "lua", title: "Con la luna llena", items: [ITEMS.lua], reward: ITEMS.lua, render: phase6 },
   { key: "foto", title: "Fotografía rota", items: [ITEMS.foto], reward: ITEMS.foto, render: phase7 },
   { key: "leyma", title: "Noite no Coliseum", items: [ITEMS.leyma], reward: ITEMS.leyma, render: phaseBasket },
+  { key: "lentellas", title: "O xuízo das lentellas", items: [ITEMS.lentellas], reward: ITEMS.lentellas, render: phaseLentils },
   { key: "familia", title: "O arquivo familiar", items: [ITEMS.familia], reward: ITEMS.familia, render: phase8 },
   { key: "fogar", title: "O noso fogar", items: [ITEMS.fogar], reward: ITEMS.fogar, render: phaseHome },
   { key: "tempo", title: "Arquivo temporal", items: [ITEMS.tempo], reward: ITEMS.tempo, render: phase9 },

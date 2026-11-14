@@ -220,8 +220,9 @@ export const CONTENT = {
     gonzalo: [
       "Chegaches demasiado lonxe para abandonar agora.",
       "O último anaco do mapa está pechado nunha caixa forte.",
-      "E a clave é unha cousa que esta máquina non sabe.",
-      "Terás que preguntarma a min."
+      "E a clave non a sabe esta máquina. Nin sequera eu.",
+      "Teñena os dous protagonistas que se uniron á partida.",
+      "Cada un garda a metade. Vai buscalos."
     ],
     hints: ["Todo comezou nun faro.", "A voda e a lúa de mel van xuntas. A familia chegou despois."]
   },
@@ -341,7 +342,8 @@ export const CONTENT = {
   caixa: {
     intro: [
       "{n} anacos do mapa. Falta só un, e está aquí dentro: nunha caixa forte.",
-      "A clave non a coñece esta máquina. Terás que pedirlla a Gonzalo."
+      "A clave non a coñece esta máquina: teñena Martiño e Xoel.",
+      "Cada un garda a metade. Pídellas e xúntaas aquí."
     ],
     eggs: {
       "2805": ["Un bo comezo.", "Pero non é o final."],
@@ -356,8 +358,8 @@ export const CONTENT = {
     wrong: [
       ["A caixa nin se inmuta."],
       ["Click. Nada. A caixa ten moita paciencia."],
-      ["Esa non é.", "Quizais Gonzalo saiba algo..."],
-      ["A caixa boceza.", "Pregúntalle a quen a pechou."]
+      ["Esa non é.", "Quizais Martiño e Xoel saiban algo..."],
+      ["A caixa boceza.", "Os dous pequenos gardiáns teñen a clave."]
     ],
     notConfigured: ["A caixa aínda non ten clave.", "Alguén (que se chama Gonzalo) terá que configurala."],
     reveal: [
@@ -1311,11 +1313,17 @@ function phaseHome(ctx) {
 
 // ---------------------------------------------------------------------
 //  Definición das fases (a orde do array é a orde do xogo)
+//  photo (opcional): foto real que se desbloquea ao completar o capítulo
+//  e queda gardada no álbum do inventario.
 // ---------------------------------------------------------------------
 const PHASE_LIST = [
   { key: "torre", mapIcon: "♜", title: "A Torre de Hércules", items: [ITEMS.torre], reward: ITEMS.torre, render: phase1 },
-  { key: "ny", mapIcon: "▥", title: "Nova York", items: [ITEMS.postal, ITEMS.ny], reward: ITEMS.ny, render: phase2 },
-  { key: "maldivas", mapIcon: "☾", title: "Maldivas", items: [ITEMS.maldivas], reward: ITEMS.maldivas, render: phase3 },
+  { key: "ny", mapIcon: "▥", title: "Nova York", items: [ITEMS.postal, ITEMS.ny], reward: ITEMS.ny,
+    photo: { src: "assets/images/fotos/new-york.jpg", caption: "Nova York, a primeira vez. Ti, eu e unha cidade enteira detrás." },
+    render: phase2 },
+  { key: "maldivas", mapIcon: "☾", title: "Maldivas", items: [ITEMS.maldivas], reward: ITEMS.maldivas,
+    photo: { src: "assets/images/fotos/maldivas.jpg", caption: "Maldivas. Ti, o mar e a mellor pose da historia." },
+    render: phase3 },
   { key: "voda", mapIcon: "♥", title: "O candado da voda", items: [ITEMS.voda], reward: ITEMS.voda, render: phase4 },
   { key: "saba", mapIcon: "▤", title: "O incidente da saba", items: [ITEMS.saba, ITEMS.hotel], reward: ITEMS.hotel, render: phase5 },
   { key: "friends", mapIcon: "◫", title: "O concurso do apartamento", items: [ITEMS.friends], reward: ITEMS.friends, render: phaseFriends },

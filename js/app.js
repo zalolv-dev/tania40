@@ -96,11 +96,42 @@ function openMap() {
     btn("PECHAR", () => m.close(), "primary")), { label: "Mapa do tesouro" });
 }
 
+// ---------- Álbum de fotos (só algúns capítulos teñen foto) ----------
+function unlockedPhotos() {
+  const done = new Set(S.get().completedPhases.map((p) => p.id));
+  return PHASES.filter((p) => p.photo && done.has(p.id)).map((p) => ({ ...p.photo, title: p.title, id: p.id }));
+}
+
+function polaroid(photo, big = false) {
+  const img = h("img.polaroid-img", { src: photo.src, alt: photo.caption, loading: "lazy" });
+  const fig = h("figure.polaroid" + (big ? ".big" : ""), {}, img, h("figcaption", {}, photo.caption));
+  img.addEventListener("error", () => {
+    console.error(`[tania40] Non se atopou a foto: ${photo.src}`);
+    fig.replaceWith(h("p.tip", {}, "Parece que esta foto se perdeu polo camiño."));
+  });
+  return fig;
+}
+
+function openAlbum() {
+  audio.sfx("click");
+  const photos = unlockedPhotos();
+  const total = PHASES.filter((p) => p.photo).length;
+  const m = ui.modal(h("div.album", {},
+    h("h2", {}, `ÁLBUM · ${photos.length}/${total}`),
+    h("p.map-note", {}, "Algúns capítulos gardan unha foto de verdade. Esta é a vosa colección."),
+    h("div.album-grid", {}, ...photos.map((p) => polaroid(p))),
+    btn("PECHAR", () => m.close(), "primary")), { label: "Álbum de fotos" });
+}
+
 function refreshInventory() {
+  const photos = unlockedPhotos();
+  const albumBtn = photos.length ? h("button.inv-item.inv-map", { type: "button", role: "listitem", "aria-label": "Inventario: Álbum de fotos", onclick: openAlbum },
+    h("span.inv-icon", { "aria-hidden": "true" }, "▣"),
+    h("span.inv-name", {}, `Álbum (${photos.length})`)) : null;
   const mapBtn = h("button.inv-item.inv-map", { type: "button", role: "listitem", "aria-label": "Inventario: Mapa do tesouro", onclick: openMap },
     h("span.inv-icon", { "aria-hidden": "true" }, "▦"),
     h("span.inv-name", {}, `Mapa (${S.get().finalUnlocked ? PHASES.length : mapRevealed()}/${PHASES.length})`));
-  ui.renderInventory(S.get().inventory, null, [mapBtn]);
+  ui.renderInventory(S.get().inventory, null, [mapBtn, albumBtn].filter(Boolean));
 }
 
 function stopCountdown() {
@@ -203,7 +234,18 @@ function showCompletion(def) {
     "E, escondido nese recordo, un novo anaco do mapa do tesouro.",
     left > 1 ? `Faltan ${left} anacos. O tesouro está cada vez máis preto.` : "Só falta un anaco... e está gardado nunha caixa forte."
   ]);
-  ui.controls(btn(isLast ? "CONTINUAR" : "CONTINUAR", () => render(), "primary"));
+  if (def.photo) {
+    // Primeiro o mapa; despois, unha foto de verdade.
+    ui.controls(btn("VER A LEMBRANZA", () => {
+      audio.sfx("item");
+      ui.say(["Entre as páxinas do mapa aparece unha foto de verdade.", "Gárdase no álbum do inventario."]);
+      const pic = polaroid(def.photo, true);
+      ui.controls(pic, btn("CONTINUAR", () => render(), "primary"));
+      setTimeout(() => pic.scrollIntoView && pic.scrollIntoView({ behavior: ui.reducedMotion() ? "auto" : "smooth", block: "center" }), 150);
+    }, "primary"));
+  } else {
+    ui.controls(btn("CONTINUAR", () => render(), "primary"));
+  }
 }
 
 function showLock() {

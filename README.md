@@ -106,6 +106,25 @@ TREASURE_LOCATION: "A estantería que hai enriba do ordenador",
 
 ⚠️ Con el repo público, esto se puede leer. Pon el sitio real poco antes del final.
 
+## Fotos de recuerdos (álbum)
+
+Algunos capítulos desbloquean una foto real al completarse ("VER A LEMBRANZA"), que queda en el
+**Álbum** del inventario. Ahora mismo: Nova York (cap. 2) y Maldivas (cap. 3).
+
+Para añadir otra: guarda la foto en `assets/images/fotos/` (JPG, ~1200 px) y en `PHASE_LIST`
+(`js/phases.js`) añade al capítulo:
+
+```js
+photo: { src: "assets/images/fotos/nombre.jpg", caption: "Texto en galego" },
+```
+
+⚠️ Las fotos del repositorio público son visibles para cualquiera.
+
+## La clave final la tienen los niños
+
+Gonzalo (cap. 13) y la caja fuerte (cap. 14) dicen que la clave la tienen **Martiño y Xoel**, cada uno la mitad.
+Con `FINAL_CODE: "4040"`: dale a cada uno un papel con **40**.
+
 ## Contraseña de acceso
 
 El juego pide contraseña cada vez que se abre en un navegador nuevo (se recuerda mientras la pestaña siga abierta).

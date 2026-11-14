@@ -624,3 +624,12 @@ body[data-screen="gate"] .inventory { display: none; }
 
 .stage-overlay.complete-overlay { z-index: 5; background: rgba(5, 3, 15, .55); }
 .ending-stage .stage-overlay { z-index: 3; }
+
+/* ---------- Fotos e álbum ---------- */
+.polaroid { margin: 0 auto; background: #fbf8f0; padding: 8px 8px 10px; box-shadow: 4px 4px 0 #000; border: 2px solid #000; transform: rotate(-1.5deg); max-width: 100%; animation: pop .5s steps(4) both; }
+.polaroid.big { width: min(100%, 420px); }
+.polaroid-img { display: block; width: 100%; height: auto; image-rendering: auto; }
+.polaroid figcaption { color: #3a2a18; font-size: 13px; text-align: center; margin-top: 8px; line-height: 1.3; }
+.album-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 10px 0 14px; }
+.album-grid .polaroid:nth-child(even) { transform: rotate(1.5deg); }
+@media (min-width: 560px) { .album-grid { grid-template-columns: 1fr 1fr; } }

@@ -70,7 +70,7 @@ tania40/
 | 4 | O candado da voda (Pazo de Mondoi) | candado 6 cifras | `250714` |
 | 5 | O incidente da saba | examinar cama + respuesta libre | "Gonzalo" (el que se quejó en recepción) |
 | 6 | O concurso do apartamento | concurso de Friends: 7 preguntas, 3 vidas | Muriel · Transponster · Hugsy · Tres · Regina Phalange · Dr. Drake Ramoray · Jack e Erica |
-| 7 | Con la luna llena | respuesta libre + QR Spotify | "Con la luna llena" (sin exigir Melendi) |
+| 7 | A lúa de sempre (superluna 14/11/2016) | respuesta libre + QR Spotify | "Con la luna llena" (sin exigir Melendi) |
 | 8 | Fotografía rota | puzle 3×3 por intercambio | — |
 | 9 | Noite no Coliseum | 3 tiros libres (minijuego) + marcador | `07` victorias del Leyma en su 1.ª ACB (2024-25, 7-27) |
 | 10 | O xuízo das lentellas | examinar 3 pruebas + veredicto | **Martiño** (las lentejas, absueltas) |

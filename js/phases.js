@@ -145,8 +145,16 @@ export const CONTENT = {
   },
 
   lua: {
-    intro: ["A lúa das Maldivas volveu.", "E esta vez trae algo que tararear."],
-    moon: ["A lúa está enorme.", "Hai cancións que soan mellor baixo ela."],
+    intro: [
+      "Hai algo que vos acompañou sempre: en viaxes, en noites longas, en paseos sen présa. A lúa.",
+      "Pero houbo unha noite distinta. O 14 de novembro de 2016 saíu unha superlúa enorme, e Tania sinalouna co dedo.",
+      "Ao día seguinte naceu Martiño."
+    ],
+    moon: [
+      "Aquela noite a lúa estaba máis preto da Terra ca en case setenta anos.",
+      "Coma se ela tamén quixese coñecer a Martiño.",
+      "E desde entón, cada vez que a vedes así, soa unha canción na cabeza..."
+    ],
     question: "Que canción pertence a esta lembranza?",
     feedback: {
       artist: ["O artista, si. Pero que canción?", "A lúa está a mirar para ti con moita intención."],
@@ -154,7 +162,7 @@ export const CONTENT = {
       none: ["Esa non soa.", "Mira ben o ceo."]
     },
     qrText: "Hai lembranzas que precisan a súa propia banda sonora.",
-    success: ["Agora esta lembranza xa ten banda sonora."],
+    success: ["Agora esta lembranza xa ten banda sonora.", "A lúa de sempre. A da noite antes de Martiño. A vosa."],
     hints: ["É dun cantante asturiano.", "Fíxate na lúa: está enteira, redonda... chea."]
   },
 
@@ -1312,7 +1320,7 @@ const PHASE_LIST = [
   { key: "voda", mapIcon: "♥", title: "O candado da voda", items: [ITEMS.voda], reward: ITEMS.voda, render: phase4 },
   { key: "saba", mapIcon: "▤", title: "O incidente da saba", items: [ITEMS.saba, ITEMS.hotel], reward: ITEMS.hotel, render: phase5 },
   { key: "friends", mapIcon: "◫", title: "O concurso do apartamento", items: [ITEMS.friends], reward: ITEMS.friends, render: phaseFriends },
-  { key: "lua", mapIcon: "♪", title: "Con la luna llena", items: [ITEMS.lua], reward: ITEMS.lua, render: phase6 },
+  { key: "lua", mapIcon: "♪", title: "A lúa de sempre", items: [ITEMS.lua], reward: ITEMS.lua, render: phase6 },
   { key: "foto", mapIcon: "▣", title: "Fotografía rota", items: [ITEMS.foto], reward: ITEMS.foto, render: phase7 },
   { key: "leyma", mapIcon: "●", title: "Noite no Coliseum", items: [ITEMS.leyma], reward: ITEMS.leyma, render: phaseBasket },
   { key: "lentellas", mapIcon: "◉", title: "O xuízo das lentellas", items: [ITEMS.lentellas], reward: ITEMS.lentellas, render: phaseLentils },

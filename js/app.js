@@ -5,7 +5,8 @@ import * as ui from "./ui.js";
 import * as audio from "./audio.js";
 import * as scenes from "./scenes.js";
 import { PHASES, getPhase, CONTENT, numberGl } from "./phases.js";
-import { initAdminTrigger } from "./admin.js";
+import { initAdminTrigger, sha256 } from "./admin.js";
+import { renderMap } from "./map.js";
 
 const { h, btn } = ui;
 let countdownTimer = null;
@@ -75,8 +76,31 @@ function makeCtx(def) {
   return ctx;
 }
 
+// ---------- Mapa do tesouro ----------
+function mapPieces() {
+  return PHASES.map((p) => ({ icon: p.mapIcon || "◆", title: p.title }));
+}
+function mapRevealed() {
+  return Math.min(S.get().completedPhases.filter((p) => p.id < PHASES.length).length, PHASES.length - 1);
+}
+function mapNode(opts = {}) {
+  const s = S.get();
+  return renderMap({ pieces: mapPieces(), revealed: mapRevealed(), complete: !!s.finalUnlocked, ...opts });
+}
+function openMap() {
+  audio.sfx("click");
+  const m = ui.modal(h("div", {}, mapNode({ big: true }),
+    h("p.map-note", {}, S.get().finalUnlocked
+      ? "O mapa está completo. Xa sabes onde buscar."
+      : "Cada capítulo completado descobre un anaco. O último está gardado nunha caixa forte."),
+    btn("PECHAR", () => m.close(), "primary")), { label: "Mapa do tesouro" });
+}
+
 function refreshInventory() {
-  ui.renderInventory(S.get().inventory);
+  const mapBtn = h("button.inv-item.inv-map", { type: "button", role: "listitem", "aria-label": "Inventario: Mapa do tesouro", onclick: openMap },
+    h("span.inv-icon", { "aria-hidden": "true" }, "▦"),
+    h("span.inv-name", {}, `Mapa (${S.get().finalUnlocked ? PHASES.length : mapRevealed()}/${PHASES.length})`));
+  ui.renderInventory(S.get().inventory, null, [mapBtn]);
 }
 
 function stopCountdown() {
@@ -96,6 +120,7 @@ function render() {
   document.getElementById("dev-badge").hidden = !S.isDev();
 
   try {
+    if (!isAuthed()) return showGate();
     if (S.clockTampered()) return showClockWarning();
     if (!s.introSeen) return showIntro();
     if (s.finalUnlocked || s.currentPhase > PHASES.length) return showEnding(false);
@@ -120,9 +145,12 @@ function showIntro() {
   ui.chapter("");
   const stage = ui.stage(h("div.scene", { html: scenes.title() }), "scene-stage title-stage");
   stage.append(h("div.title-overlay", {}, h("div.level", {}, "NIVEL"), h("div.level-num", {}, "40")));
+  stage.append(h("div.title-couple", { html: scenes.coupleSprite() }));
   const steps = [
-    ["Tania.", "Chegaches ata aquí.", "Pero o teu regalo segue bloqueado."],
-    [`Para descubrilo terás que recuperar ${numberGl(PHASES.length)} fragmentos dunha historia que coñeces bastante ben.`]
+    ["Tania.", "Chegaches ata aquí.", "Pero o teu regalo segue escondido."],
+    ["Alguén o agochou nun lugar secreto. E só hai unha maneira de atopalo: un mapa do tesouro.",
+      `O problema é que o mapa rompeu en ${numberGl(PHASES.length)} anacos, espallados polos recordos dunha historia que coñeces bastante ben.`],
+    ["Cada capítulo que superes descubrirá un anaco do mapa.", "Ánimo, exploradora. O tesouro agarda."]
   ];
   let i = 0;
   const next = () => {
@@ -164,12 +192,17 @@ function showCompletion(def) {
   const isLast = def.id >= PHASES.length;
   const card = h("div.complete-card", {},
     h("div.complete-title", {}, `CAPÍTULO ${def.id} COMPLETADO`),
-    def.reward ? h("div.complete-item", {}, h("span.big-icon", { "aria-hidden": "true" }, "◆"), def.reward.name) : null,
-    h("div.complete-count", {}, `Fragmentos: ${Math.min(s.completedPhases.length, PHASES.length - 1)} / ${PHASES.length}`)
+    mapNode({ highlight: def.id - 1 }),
+    h("div.complete-count", {}, "NOVO ANACO DO MAPA!")
   );
   const stage = ui.stageEl();
   stage.append(h("div.stage-overlay.complete-overlay", {}, card));
-  ui.say(def.reward ? [`Recuperaches: ${def.reward.name}.`, def.reward.desc] : ["Fragmento recuperado."]);
+  const left = PHASES.length - mapRevealed();
+  ui.say([
+    ...(def.reward ? [`Recuperaches: ${def.reward.name}.`] : []),
+    "E, escondido nese recordo, un novo anaco do mapa do tesouro.",
+    left > 1 ? `Faltan ${left} anacos. O tesouro está cada vez máis preto.` : "Só falta un anaco... e está gardado nunha caixa forte."
+  ]);
   ui.controls(btn(isLast ? "CONTINUAR" : "CONTINUAR", () => render(), "primary"));
 }
 
@@ -186,12 +219,12 @@ function showLock() {
       h("div.lock-card", {},
         h("div.lock-title", {}, finalWait ? "A CAIXA FORTE AGARDA" : "SEGUINTE CAPÍTULO BLOQUEADO"),
         timeEl,
-        h("div.lock-sub", {}, `Fragmentos: ${Math.min(last, PHASES.length - 1)} / ${PHASES.length}`)))
+        h("div.lock-sub", {}, `Mapa do tesouro: ${mapRevealed()} / ${PHASES.length} anacos`)))
   );
   ui.say(finalWait
     ? ["Chegaches antes do previsto.", `A caixa forte só se abrirá o ${finalDateText()}.`, "Ata entón, a partida queda gardada."]
     : ["A aventura continuará cando chegue o momento.", "Podes pechar esta páxina.", "A partida queda gardada."], { instant: true });
-  ui.controls(h("p.tip", {}, "Mentres agardas, podes revisar o inventario."));
+  ui.controls(btn("VER O MAPA DO TESOURO", openMap, "small"), h("p.tip", {}, "Mentres agardas, podes revisar o mapa e o inventario."));
   syncMusic();
   countdownTimer = setInterval(() => {
     if (S.clockTampered()) return render();
@@ -263,7 +296,8 @@ function finalReveal() {
   const stage = ui.stageEl();
   stage.append(h("div.stage-banner.big", {}, "ACCESO CONCEDIDO"));
   confetti(stage);
-  ui.say(["ACCESO CONCEDIDO"]);
+  ui.say(["ACCESO CONCEDIDO", "Dentro da caixa forte hai un papel vello e dobrado...", "É o último anaco do mapa do tesouro."]);
+  refreshInventory();
   ui.controls(btn("SEGUINTE", () => showEnding(true), "primary"));
 }
 
@@ -289,9 +323,10 @@ function showEnding(animated) {
   const C = CONTENT.caixa;
   const stage = ui.stage(h("div.scene", { html: scenes.title() }), "scene-stage ending-stage");
   const strip = photoStrip();
-  stage.append(h("div.stage-overlay", {}, h("div.ending-card", {}, h("div.level-num.small", {}, "40"), strip)));
+  stage.append(h("div.stage-overlay", {}, h("div.ending-card", {}, mapNode({ complete: true, highlight: animated ? PHASES.length - 1 : -1 }), strip)));
   if (animated) confetti(stage);
-  ui.say(C.reveal, { instant: !animated });
+  const where = CONFIG.TREASURE_LOCATION;
+  ui.say([...C.reveal, where ? `O mapa está completo. O tesouro agarda en: ${where.charAt(0).toLowerCase() + where.slice(1)}.` : C.emptyGift], { instant: !animated });
   ui.controls(
     btn("DESCUBRIR O REGALO", showGift, "primary big"),
     btn("VER A REVELACIÓN DE NOVO", () => {
@@ -306,13 +341,66 @@ function showGift() {
   audio.sfx("item");
   const empty = !g.title && !g.description;
   const content = h("div.gift", {},
-    empty ? h("p.gift-empty", {}, CONTENT.caixa.emptyGift) : null,
+    mapNode({ complete: true, big: true }),
+    empty ? h("p.gift-empty", {}, CONFIG.TREASURE_LOCATION ? "Segue o mapa. O teu regalo está agardando alí." : CONTENT.caixa.emptyGift) : null,
     g.title ? h("h2.gift-title", {}, g.title) : null,
     g.image ? h("img.gift-img", { src: g.image, alt: g.title || "O regalo" }) : null,
     g.description ? h("p.gift-desc", {}, g.description) : null
   );
   const m = ui.modal(h("div", {}, content, btn("PECHAR", () => m.close(), "primary")), { label: "O regalo" });
   if (!empty) confetti(m.el);
+}
+
+// ---------------------------------------------------------------------
+//  Contrasinal de acceso (non é seguridade real: o código é visible)
+// ---------------------------------------------------------------------
+const AUTH_KEY = "tania40:auth";
+function isAuthed() {
+  if (!CONFIG.ACCESS_PASSWORD_SHA256) return true;
+  try {
+    return sessionStorage.getItem(AUTH_KEY) === CONFIG.ACCESS_PASSWORD_SHA256;
+  } catch (e) {
+    return authedInMemory;
+  }
+}
+let authedInMemory = false;
+
+function showGate() {
+  setScreen("gate");
+  ui.chapter("");
+  const stage = ui.stage(h("div.scene", { html: scenes.title() }), "scene-stage title-stage");
+  stage.append(h("div.title-overlay", {}, h("div.level", {}, "NIVEL"), h("div.level-num", {}, "40")));
+  stage.append(h("div.title-couple", { html: scenes.coupleSprite() }));
+  ui.say(["Esta aventura é privada.", "Introduce o contrasinal para continuar."], { instant: true });
+  const input = h("input.text-input", { id: "gate-pass", type: "password", autocomplete: "current-password", autocapitalize: "off", autocorrect: "off", spellcheck: "false" });
+  const msg = h("p.admin-msg", { "aria-live": "polite" });
+  const form = h("form.answer-form", {
+    onsubmit: async (e) => {
+      e.preventDefault();
+      audio.unlock();
+      const hash = await sha256(input.value);
+      if (hash === CONFIG.ACCESS_PASSWORD_SHA256) {
+        try {
+          sessionStorage.setItem(AUTH_KEY, hash);
+        } catch (err) {
+          /* sen almacenamento de sesión */
+        }
+        authedInMemory = true;
+        audio.sfx("success");
+        render();
+      } else {
+        audio.sfx("error");
+        msg.textContent = "Contrasinal incorrecto. Ollo coas maiúsculas e os números.";
+        input.value = "";
+        input.focus();
+      }
+    }
+  },
+  h("label.answer-label", { for: "gate-pass" }, "CONTRASINAL"),
+  input,
+  msg,
+  h("button.btn.primary", { type: "submit" }, "ENTRAR"));
+  ui.controls(form);
 }
 
 // ---------------------------------------------------------------------

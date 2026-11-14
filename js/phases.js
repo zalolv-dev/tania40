@@ -211,7 +211,8 @@ export const CONTENT = {
     solved: ["Todos os recordos, por fin, na súa orde.", "E todos apuntan cara ao mesmo sitio..."],
     gonzalo: [
       "Chegaches demasiado lonxe para abandonar agora.",
-      "Pero hai unha cousa que esta máquina non sabe.",
+      "O último anaco do mapa está pechado nunha caixa forte.",
+      "E a clave é unha cousa que esta máquina non sabe.",
       "Terás que preguntarma a min."
     ],
     hints: ["Todo comezou nun faro.", "A voda e a lúa de mel van xuntas. A familia chegou despois."]
@@ -331,8 +332,8 @@ export const CONTENT = {
 
   caixa: {
     intro: [
-      "{n} fragmentos. Unha caixa forte. E unha clave que esta máquina non coñece.",
-      "O último fragmento non está aquí: terás que pedirllo a Gonzalo."
+      "{n} anacos do mapa. Falta só un, e está aquí dentro: nunha caixa forte.",
+      "A clave non a coñece esta máquina. Terás que pedirlla a Gonzalo."
     ],
     eggs: {
       "2805": ["Un bo comezo.", "Pero non é o final."],
@@ -947,6 +948,7 @@ function phase9(ctx) {
   const showGonzalo = () => {
     const stage = ui.stage(sceneWrap(scenes.npcRoom()), "scene-stage");
     stage.append(h("div.npc", { html: scenes.gonzaloSprite() }));
+    stage.append(h("div.npc.npc-tania", { html: scenes.taniaSprite() }));
     pst.npcStep = pst.npcStep || 0;
     const step = () => {
       const i = pst.npcStep;
@@ -1304,20 +1306,20 @@ function phaseHome(ctx) {
 //  Definición das fases (a orde do array é a orde do xogo)
 // ---------------------------------------------------------------------
 const PHASE_LIST = [
-  { key: "torre", title: "A Torre de Hércules", items: [ITEMS.torre], reward: ITEMS.torre, render: phase1 },
-  { key: "ny", title: "Nova York", items: [ITEMS.postal, ITEMS.ny], reward: ITEMS.ny, render: phase2 },
-  { key: "maldivas", title: "Maldivas", items: [ITEMS.maldivas], reward: ITEMS.maldivas, render: phase3 },
-  { key: "voda", title: "O candado da voda", items: [ITEMS.voda], reward: ITEMS.voda, render: phase4 },
-  { key: "saba", title: "O incidente da saba", items: [ITEMS.saba, ITEMS.hotel], reward: ITEMS.hotel, render: phase5 },
-  { key: "friends", title: "O concurso do apartamento", items: [ITEMS.friends], reward: ITEMS.friends, render: phaseFriends },
-  { key: "lua", title: "Con la luna llena", items: [ITEMS.lua], reward: ITEMS.lua, render: phase6 },
-  { key: "foto", title: "Fotografía rota", items: [ITEMS.foto], reward: ITEMS.foto, render: phase7 },
-  { key: "leyma", title: "Noite no Coliseum", items: [ITEMS.leyma], reward: ITEMS.leyma, render: phaseBasket },
-  { key: "lentellas", title: "O xuízo das lentellas", items: [ITEMS.lentellas], reward: ITEMS.lentellas, render: phaseLentils },
-  { key: "familia", title: "O arquivo familiar", items: [ITEMS.familia], reward: ITEMS.familia, render: phase8 },
-  { key: "fogar", title: "O noso fogar", items: [ITEMS.fogar], reward: ITEMS.fogar, render: phaseHome },
-  { key: "tempo", title: "Arquivo temporal", items: [ITEMS.tempo], reward: ITEMS.tempo, render: phase9 },
-  { key: "caixa", title: "A caixa forte", items: [], reward: null, render: phase10 }
+  { key: "torre", mapIcon: "♜", title: "A Torre de Hércules", items: [ITEMS.torre], reward: ITEMS.torre, render: phase1 },
+  { key: "ny", mapIcon: "▥", title: "Nova York", items: [ITEMS.postal, ITEMS.ny], reward: ITEMS.ny, render: phase2 },
+  { key: "maldivas", mapIcon: "☾", title: "Maldivas", items: [ITEMS.maldivas], reward: ITEMS.maldivas, render: phase3 },
+  { key: "voda", mapIcon: "♥", title: "O candado da voda", items: [ITEMS.voda], reward: ITEMS.voda, render: phase4 },
+  { key: "saba", mapIcon: "▤", title: "O incidente da saba", items: [ITEMS.saba, ITEMS.hotel], reward: ITEMS.hotel, render: phase5 },
+  { key: "friends", mapIcon: "◫", title: "O concurso do apartamento", items: [ITEMS.friends], reward: ITEMS.friends, render: phaseFriends },
+  { key: "lua", mapIcon: "♪", title: "Con la luna llena", items: [ITEMS.lua], reward: ITEMS.lua, render: phase6 },
+  { key: "foto", mapIcon: "▣", title: "Fotografía rota", items: [ITEMS.foto], reward: ITEMS.foto, render: phase7 },
+  { key: "leyma", mapIcon: "●", title: "Noite no Coliseum", items: [ITEMS.leyma], reward: ITEMS.leyma, render: phaseBasket },
+  { key: "lentellas", mapIcon: "◉", title: "O xuízo das lentellas", items: [ITEMS.lentellas], reward: ITEMS.lentellas, render: phaseLentils },
+  { key: "familia", mapIcon: "☺", title: "O arquivo familiar", items: [ITEMS.familia], reward: ITEMS.familia, render: phase8 },
+  { key: "fogar", mapIcon: "⌂", title: "O noso fogar", items: [ITEMS.fogar], reward: ITEMS.fogar, render: phaseHome },
+  { key: "tempo", mapIcon: "⧗", title: "Arquivo temporal", items: [ITEMS.tempo], reward: ITEMS.tempo, render: phase9 },
+  { key: "caixa", mapIcon: "✕", title: "A caixa forte", items: [], reward: null, render: phase10 }
 ];
 
 export const PHASES = PHASE_LIST.map((p, i) => ({ ...p, id: i + 1 }));

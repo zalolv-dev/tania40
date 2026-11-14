@@ -147,11 +147,12 @@ const ICONS = {
   house: "⌂"
 };
 
-export function renderInventory(items, onPick) {
+export function renderInventory(items, onPick, pinned = []) {
   els.inventory.innerHTML = "";
   els.inventory.append(h("div.inv-title", {}, "INVENTARIO"));
   const list = h("div.inv-list", { role: "list" });
-  if (!items.length) {
+  pinned.forEach((n) => list.append(n));
+  if (!items.length && !pinned.length) {
     list.append(h("div.inv-empty", {}, "Aínda baleiro."));
   }
   items.forEach((it) => {

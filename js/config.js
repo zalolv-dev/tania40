@@ -27,6 +27,12 @@ export const CONFIG = {
   DEV_MODE: false,
   DEV_PHASE_LOCK_MS: 5000,
 
+  // Contrasinal para entrar no xogo (pídese cada vez que se abre a páxina).
+  // Gárdase só o SHA-256:  echo -n "CONTRASINAL" | shasum -a 256
+  // Pon null para desactivalo.
+  ACCESS_PASSWORD_SHA256:
+    "4c441f5ffcbdd3491389934a0396fd558e7c7c0a211fd6d06ec83821fca59fed",
+
   // Consola secreta: número de toques rápidos no rodapé.
   ADMIN_TAP_COUNT: 7,
   // SHA-256 do PIN da consola. PIN por defecto: 4040
@@ -56,6 +62,10 @@ export const CONFIG = {
   // Fotos que aparecen na revelación final (opcional).
   // Exemplo: ["assets/images/final-1.jpg", "assets/images/final-2.jpg"]
   FINAL_PHOTOS: [],
+
+  // Onde está escondido o regalo: aparece no mapa do tesouro ao abrir a caixa forte.
+  // Ollo: se o repositorio é público, isto pódese ler. Ponlo pouco antes do final.
+  TREASURE_LOCATION: "A estantería que hai enriba do ordenador",
 
   // O regalo. Se title e description están baleiros móstrase
   // "O segredo aínda non foi escrito."

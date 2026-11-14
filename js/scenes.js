@@ -274,39 +274,81 @@ export function vault() {
   `);
 }
 
-// Gonzalo NPC: personaxe pixel-art orixinal (non pretende ser un retrato).
+// Gonzalo e Tania en pixel-art (inspirados nunha foto súa: non son retratos).
+// Gonzalo: pelo rizado, barba, lentes de sol redondas e camisa de raias.
 const GONZALO_MAP = [
-  "...hhhhhh...",
-  "..hhhhhhhh..",
-  "..hssssssh..",
-  "..sgggsggg..",
-  "..sgesggeg..",
-  "..ssssssss..",
-  "..sbsmmsbs..",
-  "...bbbbbb...",
-  "....ssss....",
-  "...tttttt...",
-  "..tttwwttt..",
-  ".ttttwwtttt.",
-  ".sttttttts..",
-  ".sttttttts..",
-  "..tttttttt..",
-  "..pppppppp..",
-  "..ppp..ppp..",
-  "..ppp..ppp..",
-  "..ppp..ppp..",
-  ".kkkk..kkkk."
+  "....hhhhhh....",
+  "..hhhHhhHhhh..",
+  ".hhHhhhhhhHhh.",
+  ".hhhssssssshh.",
+  "hhhggggsgggghh",
+  "hhhglggsglgghh",
+  ".hhssssSssshh.",
+  ".hhbsssssssbh.",
+  ".hhbbmmmmmbbh.",
+  "..hbbbbbbbbbh.",
+  "...bbbbbbbb...",
+  "....ssssss....",
+  "..wkwkwkwkwk..",
+  ".kwkwkwkwkwkw.",
+  "awkwkwkwkwkwka",
+  "akwkwkwkwkwkwa",
+  "awkwkwkwkwkwka",
+  ".kwkwkwkwkwkw.",
+  "..pppppppppp..",
+  "..pppp..pppp..",
+  "..pppp..pppp..",
+  "..pppp..pppp..",
+  ".KKKKK..KKKKK."
 ];
-const GONZALO_COLORS = { h: "#3b2414", s: "#f0c39b", e: "#1a1a1a", g: "#2b2e36", b: "#7a4e30", m: "#a0503c", t: "#2d6fb3", w: "#f2e6c8", p: "#2b2e3a", k: "#111" };
+const GONZALO_COLORS = { h: "#2a1a10", H: "#4a3020", s: "#e8b48f", S: "#c99070", g: "#111111", l: "#5a5f6a", b: "#2a1a10", m: "#f2ede0", w: "#efeae0", k: "#1a1a1a", a: "#e8b48f", p: "#2b2e3a", K: "#111111" };
 
-export function gonzaloSprite() {
+// Tania: sombreiro de palla, pelo longo castaño, lentes ovaladas e top negro.
+const TANIA_MAP = [
+  "...tttttttt...",
+  "..tTtTtTtTtt..",
+  ".tttttttttttt.",
+  ".TTTTTTTTTTTT.",
+  "..rrssssssrr..",
+  "..rglgsglgrr..",
+  "..rssssssssr..",
+  "..rsssmmsssr..",
+  ".rrrsssssssrr.",
+  ".rrr..ss..rrr.",
+  ".rrkkkkkkkkrr.",
+  ".rakkkkkkkkar.",
+  ".rakkkkkkkkar.",
+  "..akkkkkkkka..",
+  "...kkkkkkkk...",
+  "...pppppppp...",
+  "...ppp..ppp...",
+  "...ppp..ppp...",
+  "...ppp..ppp...",
+  "..KKKK..KKKK.."
+];
+const TANIA_COLORS = { t: "#d2ad72", T: "#a8834a", r: "#5a3a24", s: "#f0c4a0", g: "#3a3030", l: "#7a6a62", m: "#b5525a", k: "#161616", a: "#f0c4a0", p: "#2b3a5a", K: "#3a2a20" };
+
+function spritePixels(map, colors, dx = 0, dy = 0) {
   let px = "";
-  GONZALO_MAP.forEach((row, y) =>
+  map.forEach((row, y) =>
     row.split("").forEach((ch, x) => {
-      if (ch !== ".") px += R(x, y, 1, 1, GONZALO_COLORS[ch], ch === "e" ? 'class="eye"' : "");
+      if (ch !== ".") px += R(x + dx, y + dy, 1, 1, colors[ch]);
     })
   );
-  return `<svg class="npc-svg" viewBox="0 0 12 20" shape-rendering="crispEdges" role="img" aria-label="Gonzalo, en versión pixel-art">${px}</svg>`;
+  return px;
+}
+
+export function gonzaloSprite() {
+  return `<svg class="npc-svg" viewBox="0 0 14 23" shape-rendering="crispEdges" role="img" aria-label="Gonzalo, en versión pixel-art">${spritePixels(GONZALO_MAP, GONZALO_COLORS)}</svg>`;
+}
+
+export function taniaSprite() {
+  return `<svg class="npc-svg" viewBox="0 0 14 20" shape-rendering="crispEdges" role="img" aria-label="Tania, en versión pixel-art">${spritePixels(TANIA_MAP, TANIA_COLORS)}</svg>`;
+}
+
+// Os dous xuntos (Tania á esquerda, Gonzalo á dereita, coma na foto).
+export function coupleSprite() {
+  return `<svg class="npc-svg couple-svg" viewBox="0 0 28 23" shape-rendering="crispEdges" role="img" aria-label="Tania e Gonzalo, en versión pixel-art">${spritePixels(TANIA_MAP, TANIA_COLORS, 0, 3)}${spritePixels(GONZALO_MAP, GONZALO_COLORS, 13, 0)}</svg>`;
 }
 
 export function npcRoom() {

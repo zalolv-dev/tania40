@@ -95,6 +95,28 @@ Si no es así, cambia `CONTENT.tempo.order` en `js/phases.js`.
   Si empieza antes, esperará en el capítulo 14; si empieza después, el final caerá más tarde.
 - El modo desarrollo (`?dev=1`) ignora la medianoche y la fecha final.
 
+## Mapa del tesoro
+
+Cada capítulo completado descubre un anaco del mapa (inventario → **Mapa**). El último anaco (la X)
+está dentro de la caja fuerte: al abrirla, el mapa se completa y muestra dónde está el regalo:
+
+```js
+TREASURE_LOCATION: "A estantería que hai enriba do ordenador",
+```
+
+⚠️ Con el repo público, esto se puede leer. Pon el sitio real poco antes del final.
+
+## Contraseña de acceso
+
+El juego pide contraseña cada vez que se abre en un navegador nuevo (se recuerda mientras la pestaña siga abierta).
+Solo se guarda el SHA-256 en `ACCESS_PASSWORD_SHA256`. Para cambiarla:
+
+```bash
+echo -n "NUEVA_CONTRASEÑA" | shasum -a 256
+```
+
+No es seguridad real: evita que alguien juegue por casualidad, pero el código del repositorio se puede leer.
+
 ## Configuración (`js/config.js`)
 
 ### Spotify

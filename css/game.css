@@ -474,6 +474,43 @@ body {
 @keyframes bob { 50% { transform: translate(-50%, -2px); } }
 @keyframes eyeblink { 0%, 94% { opacity: 1; } 95%, 100% { opacity: 0; } }
 
+.npc { left: 62%; }
+.npc.npc-tania { left: 36%; width: 17%; bottom: 18%; animation: npc-in 1.2s steps(8) both, bob 1.9s steps(2) infinite 1.2s; }
+.title-couple { position: absolute; left: 50%; bottom: 3%; width: 22%; transform: translateX(-50%); z-index: 2; filter: drop-shadow(2px 2px 0 #000); }
+.title-couple .npc-svg { width: 100%; height: auto; display: block; }
+.title-stage .title-overlay { padding-bottom: 30%; }
+body[data-screen="gate"] .inventory { display: none; }
+
+/* ---------- Mapa do tesouro ---------- */
+.treasure-map {
+  background: #e8d3a0;
+  background-image: radial-gradient(circle at 20% 30%, rgba(120, 80, 30, .18), transparent 40%), radial-gradient(circle at 80% 70%, rgba(120, 80, 30, .2), transparent 45%);
+  border: 3px solid #5e4532; box-shadow: 4px 4px 0 #000;
+  padding: 6px; color: #3a2a18; width: min(100%, 330px);
+}
+.treasure-map.big { width: 100%; padding: 10px; }
+.map-title { text-align: center; font-size: 11px; letter-spacing: 3px; color: #5e3a1a; margin-bottom: 4px; }
+.treasure-map.big .map-title { font-size: 14px; }
+.map-grid { display: grid; gap: 3px; }
+.map-tile { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; position: relative; font-size: clamp(11px, 3.4vw, 18px); border: 2px dashed rgba(94, 69, 50, .5); }
+.treasure-map.big .map-tile { font-size: clamp(14px, 5vw, 24px); }
+.map-tile.empty { border: none; }
+.map-tile.fog { background: #4a3a2a; color: #8a7a62; border-style: solid; border-color: #3a2a18; }
+.map-tile.shown { background: rgba(255, 245, 210, .55); color: #5e3a1a; }
+.map-tile.path-right::after, .map-tile.path-left::after, .map-tile.path-down::after { content: ""; position: absolute; background: repeating-linear-gradient(90deg, #a4472f 0 3px, transparent 3px 6px); height: 2px; top: 50%; }
+.map-tile.path-right::after { left: 70%; right: -6px; }
+.map-tile.path-left::after { right: 70%; left: -6px; }
+.map-tile.path-down::after { left: 50%; width: 2px; height: auto; top: 70%; bottom: -6px; background: repeating-linear-gradient(0deg, #a4472f 0 3px, transparent 3px 6px); }
+.map-tile.x.shown { color: #c0392b; font-weight: 700; background: rgba(255, 216, 107, .7); }
+.map-tile.new { animation: maptile 1s steps(4) 3; outline: 3px solid var(--pink); z-index: 1; }
+@keyframes maptile { 50% { transform: scale(1.2); } }
+.map-foot { text-align: center; font-size: 11px; margin-top: 4px; color: #5e3a1a; }
+.map-location { color: #c0392b; font-size: 13px; }
+.treasure-map.big .map-location { font-size: 16px; }
+.map-note { font-size: 13px; color: var(--ink-dim); text-align: center; }
+.complete-card .treasure-map { width: min(100%, 300px); }
+.inv-map { border-color: var(--gold); background: #3a2a18; }
+
 /* ---------- Final ---------- */
 .photo-strip { display: flex; gap: 6px; overflow-x: auto; max-width: 100%; }
 .photo-strip img { height: 90px; width: auto; border: 3px solid #fff; box-shadow: 3px 3px 0 #000; }
@@ -584,3 +621,6 @@ body {
   }
   .confetti { display: none; }
 }
+
+.stage-overlay.complete-overlay { z-index: 5; background: rgba(5, 3, 15, .55); }
+.ending-stage .stage-overlay { z-index: 3; }

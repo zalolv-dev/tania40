@@ -45,17 +45,19 @@ export function validateTowerPhrase(input) {
 }
 
 // ---------- FASE 5 · Quen manchou a saba ----------
+// Resposta correcta: Gonzalo (o mesmo que foi queixarse á recepción).
 export function validateSheetCulprit(input) {
   const n = normalize(input);
   if (!n) return { ok: false, code: "empty" };
+  const gonzalo = /\b(gonzalo|gonza|marido|home|esposo|reclamante)\b/.test(n);
+  const tania = /\b(tania|ela|ella|eu|yo|min|mi)\b/.test(n);
   const us = ["nos", "nosotros", "nosoutros", "nosoutras", "nosotras", "os dous", "os dos", "los dos", "ambos", "ambos dous",
-    "tania e gonzalo", "gonzalo e tania", "tania y gonzalo", "gonzalo y tania", "fomos nos", "fuimos nosotros", "nosa", "nuestra"];
-  if (containsAny(n, us)) return { ok: true };
-  if (/\bgonzalo\b/.test(n) && /\btania\b/.test(n)) return { ok: true };
+    "fomos nos", "fuimos nosotros", "nosa", "nuestra"];
+  if ((gonzalo && /\btania\b/.test(n)) || containsAny(n, us)) return { ok: false, code: "us" };
+  if (gonzalo) return { ok: true };
   if (/\b(hotel|limpeza|limpieza|camareira|camarera|recepcion|servizo|servicio|lavanderia)\b/.test(n)) return { ok: false, code: "hotel" };
   if (/\b(fantasma|pantasma|espirito|espiritu|alien|extraterrestre)\b/.test(n)) return { ok: false, code: "ghost" };
-  if (/\b(gonzalo|eu|yo)\b/.test(n)) return { ok: false, code: "gonzalo" };
-  if (/\b(tania|ela|ella|ti|tu)\b/.test(n)) return { ok: false, code: "tania" };
+  if (tania) return { ok: false, code: "tania" };
   return { ok: false, code: "none" };
 }
 

@@ -68,7 +68,7 @@ tania40/
 | 2 | Nova York | encontrar postal + secuencia de objetos | maleta → taxi → rascacielos *(provisional)* |
 | 3 | Maldivas | encontrar palabras + completar frase | VIAXE · LÚA · LEMBRANZA |
 | 4 | O candado da voda | candado 6 cifras | `250714` |
-| 5 | O incidente da saba | examinar cama + respuesta libre | "Nós" (y equivalentes) |
+| 5 | O incidente da saba | examinar cama + respuesta libre | "Gonzalo" (el que se quejó en recepción) |
 | 6 | Con la luna llena | respuesta libre + QR Spotify | "Con la luna llena" (sin exigir Melendi) |
 | 7 | Fotografía rota | puzle 3×3 por intercambio | — |
 | 8 | O arquivo familiar | fichas de fechas + candado 4 cifras | 15/11/2016, 17/06/2022 → `1517` |

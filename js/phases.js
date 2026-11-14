@@ -21,7 +21,7 @@ export const ITEMS = {
   maldivas: { id: "frag-maldivas", name: "Cuncha das Maldivas", icon: "shell", desc: "Se a achegas ao oído, escóitase o mar. E, moi baixiño, unha lúa." },
   voda: { id: "frag-voda", name: "Chave da voda", icon: "key", desc: "Abriu un candado. E, de paso, outro capítulo." },
   saba: { id: "saba", name: "Saba sospeitosa", icon: "sheet", desc: "Proba principal dun caso que nunca debeu chegar á recepción." },
-  hotel: { id: "frag-hotel", name: "Fragmento do hotel", icon: "fragment", desc: "Leva unha nota: «Caso pechado. Culpables: os mesmos de sempre»." },
+  hotel: { id: "frag-hotel", name: "Fragmento do hotel", icon: "fragment", desc: "Leva unha nota: «Caso pechado. Culpable: o mesmo que reclamou»." },
   lua: { id: "frag-lua", name: "Fragmento lunar", icon: "moon", desc: "Soa baixiño cando ninguén mira." },
   foto: { id: "foto-restaurada", name: "Fotografía restaurada", icon: "photo", desc: "A imaxe estaba rota. A lembranza, non." },
   familia: { id: "frag-familia", name: "Fragmento familiar", icon: "family", desc: "15 · 17. Dous días. Dous novos protagonistas." },
@@ -136,18 +136,19 @@ export const CONTENT = {
     lamp: ["Unha lámpada. Ilumina pouco.", "Aínda así, máis ca a investigación de Gonzalo daquel día."],
     question: "Quen era finalmente responsable da misteriosa mancha?",
     feedback: {
-      gonzalo: ["Gonzalo foi quen reclamou... pero non actuou só.", "Falta alguén no banco dos acusados."],
-      tania: ["Tania declárase inocente ata que se demostre o contrario.", "E demóstrase... pero non só ela."],
-      hotel: ["O hotel recibiu a reclamación con moita paciencia.", "E resulta que tiña razón: eles non foron."],
+      us: ["Moi xenerosa repartindo culpas...", "pero neste caso só houbo un responsable. E non es ti."],
+      tania: ["Tania declárase inocente.", "E, por unha vez, éo de verdade."],
+      hotel: ["O hotel recibiu a reclamación con moita paciencia.", "E tiña razón: eles non foron."],
       ghost: ["Os fantasmas de Tenerife negan calquera implicación."],
       none: ["O detective non está convencido.", "Pensa en quen durmía alí..."]
     },
     success: [
-      "NÓS. Caso pechado.",
+      "GONZALO. Caso pechado.",
+      "Despois de baixar indignadísimo á recepción e poñer unha reclamación formal, descubriu que o culpable da mancha era... el mesmo.",
       "O hotel merecía unha desculpa. E probablemente unha boa propina.",
       "O narrador prefire non facer máis preguntas."
     ],
-    hints: ["O culpable non estaba lonxe. Estaba moi, moi preto.", "Eran dúas persoas. E as dúas están xogando a isto agora mesmo (máis ou menos)."]
+    hints: ["O culpable non estaba lonxe. De feito, estaba moi indignado.", "Quen baixou á recepción a queixarse?"]
   },
 
   lua: {

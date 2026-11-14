@@ -219,6 +219,10 @@ Consola → *EXPORTAR PARTIDA* en el móvil viejo, *IMPORTAR PARTIDA* en el nuev
 
 ## Desplegar en GitHub Pages
 
+> **Antes de cada push**, ejecuta `python3 tools/bump-version.py`. Pone un número de versión en
+> todas las referencias a los archivos, para que los móviles descarguen siempre la versión nueva
+> completa (si no, pueden mezclar archivos viejos y nuevos durante unos minutos).
+
 El repositorio ya está inicializado (`git init`, rama `main`). Falta el commit y el push:
 
 ```bash

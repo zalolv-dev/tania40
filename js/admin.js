@@ -1,9 +1,9 @@
 // CONSOLA DE GONZALO · acceso discreto (7 toques no rodapé) + PIN.
 // Non é seguridade real: o código é visible. Só evita accesos accidentais.
-import { CONFIG } from "./config.js";
-import * as S from "./state.js";
-import { h, btn, modal, toast } from "./ui.js";
-import { PHASES, PHASE_ITEMS } from "./phases.js";
+import { CONFIG } from "./config.js?v=20261114231458";
+import * as S from "./state.js?v=20261114231458";
+import { h, btn, modal, toast } from "./ui.js?v=20261114231458";
+import { PHASES, PHASE_ITEMS } from "./phases.js?v=20261114231458";
 
 // ---------- SHA-256 (usa crypto.subtle se existe; se non, versión JS) ----------
 function sha256Fallback(ascii) {
@@ -217,12 +217,11 @@ function openConsole(app) {
     status,
     h("div.admin-grid", {},
       btn("DESBLOQUEAR AGORA", act(() => { S.get().nextUnlockAt = 0; S.forgiveClock(); S.save({ silent: true }); }, "DESBLOQUEADO"), "small primary"),
-      btn("COMPLETAR FASE ACTUAL", act(() => {
-        const cur = S.get().currentPhase;
-        if (cur > PHASES.length) return;
-        (PHASE_ITEMS[cur] || []).forEach((it) => S.addItem(it));
-        S.completePhase(cur);
-      }, "FASE COMPLETADA"), "small"),
+      btn("COMPLETAR FASE ACTUAL", () => {
+        close();
+        // Pasa pola mesma pantalla que se se resolvese xogando (mapa + foto).
+        app.completeCurrent();
+      }, "small"),
       btn("IGNORAR RELOXO", act(() => S.forgiveClock(), "RELOXO AXUSTADO"), "small")
     ),
     h("h3", {}, "SALTAR A UNHA FASE"),

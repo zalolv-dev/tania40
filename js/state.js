@@ -1,5 +1,5 @@
 // Estado persistente da partida (localStorage).
-import { CONFIG } from "./config.js";
+import { CONFIG } from "./config.js?v=20261114231458";
 
 const DEV_FLAG_KEY = "tania40:dev-allowed";
 const CLOCK_TOLERANCE_MS = 2 * 60 * 1000; // pequenos axustes de reloxo non contan

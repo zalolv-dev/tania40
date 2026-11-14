@@ -1,12 +1,12 @@
 // Arranque e navegación entre pantallas.
-import { CONFIG } from "./config.js";
-import * as S from "./state.js";
-import * as ui from "./ui.js";
-import * as audio from "./audio.js";
-import * as scenes from "./scenes.js";
-import { PHASES, getPhase, CONTENT, numberGl } from "./phases.js";
-import { initAdminTrigger, sha256 } from "./admin.js";
-import { renderMap } from "./map.js";
+import { CONFIG } from "./config.js?v=20261114231458";
+import * as S from "./state.js?v=20261114231458";
+import * as ui from "./ui.js?v=20261114231458";
+import * as audio from "./audio.js?v=20261114231458";
+import * as scenes from "./scenes.js?v=20261114231458";
+import { PHASES, getPhase, CONTENT, numberGl } from "./phases.js?v=20261114231458";
+import { initAdminTrigger, sha256 } from "./admin.js?v=20261114231458";
+import { renderMap } from "./map.js?v=20261114231458";
 
 const { h, btn } = ui;
 let countdownTimer = null;
@@ -103,7 +103,7 @@ function unlockedPhotos() {
 }
 
 function polaroid(photo, big = false) {
-  const img = h("img.polaroid-img", { src: photo.src, alt: photo.caption, loading: "lazy" });
+  const img = h("img.polaroid-img", { src: photo.src, alt: photo.caption, loading: big ? "eager" : "lazy" });
   const fig = h("figure.polaroid" + (big ? ".big" : ""), {}, img, h("figcaption", {}, photo.caption));
   img.addEventListener("error", () => {
     console.error(`[tania40] Non se atopou a foto: ${photo.src}`);
@@ -448,8 +448,25 @@ function showGate() {
 // ---------------------------------------------------------------------
 //  API para outros módulos
 // ---------------------------------------------------------------------
+// Completar o capítulo actual desde a consola, coa mesma pantalla final que xogando.
+function completeCurrent() {
+  const s = S.get();
+  const def = getPhase(s.currentPhase);
+  if (!def || s.finalUnlocked) return render();
+  if (S.remainingMs() > 0) {
+    s.nextUnlockAt = 0;
+    S.forgiveClock();
+    S.save({ silent: true });
+  }
+  if (currentScreen !== "phase-" + def.id) playPhase(def.id);
+  if (def.id === PHASES.length) return finalReveal();
+  (def.items || []).forEach((it) => S.addItem(it));
+  makeCtx(def).complete();
+}
+
 const app = {
   render,
+  completeCurrent,
   suppressMusic() {
     musicSuppressed = true;
     audio.stopMusic(true);

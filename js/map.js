@@ -1,7 +1,7 @@
 // MAPA DO TESOURO: cada capítulo completado descobre un anaco.
 // O último anaco (a X) está dentro da caixa forte.
-import { CONFIG } from "./config.js";
-import { h } from "./ui.js";
+import { CONFIG } from "./config.js?v=20261114231458";
+import { h } from "./ui.js?v=20261114231458";
 
 const VS = "︎"; // forza símbolo de texto (non emoji) en iOS
 

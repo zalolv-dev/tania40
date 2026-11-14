@@ -1,6 +1,6 @@
 // Minixogo de tiros libres: un indicador vai e vén; toca LANZAR cando estea na zona verde.
-import { h, reducedMotion } from "../ui.js";
-import * as audio from "../audio.js";
+import { h, reducedMotion } from "../ui.js?v=20261114231458";
+import * as audio from "../audio.js?v=20261114231458";
 
 /**
  * opts: { goal, pst, save, ball (elemento da escena para animar), onScore(n), onMiss(), onDone() }

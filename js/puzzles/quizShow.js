@@ -1,7 +1,7 @@
 // Concurso de preguntas con vidas. Unha resposta errada custa unha vida e a
 // pregunta volve ao final da cola. Sen vidas, o concurso comeza de novo.
-import { h } from "../ui.js";
-import * as audio from "../audio.js";
+import { h } from "../ui.js?v=20261114231458";
+import * as audio from "../audio.js?v=20261114231458";
 
 const shuffle = (arr) => {
   const a = arr.slice();

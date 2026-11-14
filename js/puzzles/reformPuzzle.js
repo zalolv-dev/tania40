@@ -1,7 +1,7 @@
 // A REFORMA: puzle tipo "luces fóra" 3×3.
 // Arranxar unha peza cambia tamén as do lado (coma nunha obra de verdade).
-import { h, btn } from "../ui.js";
-import * as audio from "../audio.js";
+import { h, btn } from "../ui.js?v=20261114231458";
+import * as audio from "../audio.js?v=20261114231458";
 
 const N = 3;
 const neighbours = (i) => {

@@ -1,7 +1,7 @@
 // Puzle fotográfico 3×3: tocar unha peza, tocar outra, intercámbianse.
 // A foto cárgase dinamicamente: calquera puzzle.jpg serve (horizontal, vertical ou cadrada).
-import { h } from "../ui.js";
-import * as audio from "../audio.js";
+import { h } from "../ui.js?v=20261114231458";
+import * as audio from "../audio.js?v=20261114231458";
 
 const N = 3;
 

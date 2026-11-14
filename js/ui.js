@@ -1,5 +1,5 @@
 // Utilidades de interface: escena, diálogo, controis, inventario, avisos.
-import * as audio from "./audio.js";
+import * as audio from "./audio.js?v=20261114231458";
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 

@@ -2,17 +2,17 @@
 //  FASES · contido (textos, preguntas, pistas) + lóxica de cada capítulo
 //  Os textos están arriba de todo para poder cambialos sen tocar a lóxica.
 // =====================================================================
-import { CONFIG } from "./config.js";
-import * as scenes from "./scenes.js";
-import { h, btn, wait } from "./ui.js";
-import * as V from "./validators.js";
-import { createCodeLock } from "./puzzles/lockPuzzle.js";
-import { createPhotoPuzzle } from "./puzzles/photoPuzzle.js";
-import { createFamilyArchive } from "./puzzles/childrenPuzzle.js";
-import { createTokenBoard, placementMatches } from "./puzzles/tokenBoard.js";
-import { createFreeThrows } from "./puzzles/basketGame.js";
-import { createReform } from "./puzzles/reformPuzzle.js";
-import { createQuiz } from "./puzzles/quizShow.js";
+import { CONFIG } from "./config.js?v=20261114231458";
+import * as scenes from "./scenes.js?v=20261114231458";
+import { h, btn, wait } from "./ui.js?v=20261114231458";
+import * as V from "./validators.js?v=20261114231458";
+import { createCodeLock } from "./puzzles/lockPuzzle.js?v=20261114231458";
+import { createPhotoPuzzle } from "./puzzles/photoPuzzle.js?v=20261114231458";
+import { createFamilyArchive } from "./puzzles/childrenPuzzle.js?v=20261114231458";
+import { createTokenBoard, placementMatches } from "./puzzles/tokenBoard.js?v=20261114231458";
+import { createFreeThrows } from "./puzzles/basketGame.js?v=20261114231458";
+import { createReform } from "./puzzles/reformPuzzle.js?v=20261114231458";
+import { createQuiz } from "./puzzles/quizShow.js?v=20261114231458";
 
 // ---------------------------------------------------------------------
 //  OBXECTOS

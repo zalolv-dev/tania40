@@ -1,5 +1,5 @@
 // O ARQUIVO FAMILIAR: primeira parte (datas) co tableiro de fichas.
-import { createTokenBoard, placementMatches } from "./tokenBoard.js";
+import { createTokenBoard, placementMatches } from "./tokenBoard.js?v=20261114231458";
 
 /**
  * opts: { content (FAMILY de phases.js), pst, save, onSolved }

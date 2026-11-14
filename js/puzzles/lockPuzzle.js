@@ -1,6 +1,6 @@
 // Candado / caixa forte con teclado numérico propio (sen depender do teclado do móbil).
-import { h, wait } from "../ui.js";
-import * as audio from "../audio.js";
+import { h, wait } from "../ui.js?v=20261114231458";
+import * as audio from "../audio.js?v=20261114231458";
 
 const PADLOCK_SVG = `
 <svg class="lock-svg" viewBox="0 0 64 80" shape-rendering="crispEdges" aria-hidden="true">

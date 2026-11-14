@@ -1,8 +1,8 @@
 // Tableiro xenérico de fichas: tocar ficha → tocar oco. Sen arrastrar.
 // Úsano o arquivo familiar (fase 8), as palabras das Maldivas (fase 3)
 // e a liña temporal (fase 9).
-import { h, btn } from "../ui.js";
-import * as audio from "../audio.js";
+import { h, btn } from "../ui.js?v=20261114231458";
+import * as audio from "../audio.js?v=20261114231458";
 
 /**
  * opts:

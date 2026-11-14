@@ -373,6 +373,8 @@ body {
 .fd-name { color: var(--sky); font-size: 14px; letter-spacing: 2px; }
 .fd-num { color: var(--gold); font-size: 30px; }
 .fd-arrow { font-size: 20px; color: var(--ink-dim); }
+.fd-label { grid-column: 1 / -1; color: var(--ink-dim); font-size: 12px; letter-spacing: 3px; }
+.fd-date { color: var(--gold); font-size: 15px; }
 .fd-target { grid-column: 1 / -1; font-size: 30px; color: var(--green); letter-spacing: 6px; background: #000; border: 2px solid var(--panel-hi); padding: 2px 0; }
 
 /* ---------- Tableiro de fichas ---------- */

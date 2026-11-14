@@ -24,7 +24,7 @@ export const ITEMS = {
   hotel: { id: "frag-hotel", name: "Fragmento do hotel", icon: "fragment", desc: "Leva unha nota: «Caso pechado. Culpable: o mesmo que reclamou»." },
   lua: { id: "frag-lua", name: "Fragmento lunar", icon: "moon", desc: "Soa baixiño cando ninguén mira." },
   foto: { id: "foto-restaurada", name: "Fotografía restaurada", icon: "photo", desc: "A imaxe estaba rota. A lembranza, non." },
-  familia: { id: "frag-familia", name: "Fragmento familiar", icon: "family", desc: "15 · 17. Dous días. Dous novos protagonistas." },
+  familia: { id: "frag-familia", name: "Fragmento familiar", icon: "family", desc: "28 · 05. O día no que comezou a historia que traería dous novos protagonistas." },
   tempo: { id: "frag-tempo", name: "Fragmento do tempo", icon: "clock", desc: "Todos os recordos, por fin, na súa orde." }
 };
 
@@ -181,20 +181,28 @@ export const CONTENT = {
     ],
     tokens: ["15", "17", "2016", "05", "11", "22", "2022", "14", "06", "2014"],
     wrongDates: ["Algunha data non encaixa.", "O arquivo protesta cun ruído de caixón vello."],
-    recovered: ["Dúas datas correctas.", "Pero o arquivo non busca datas.", "Busca unha clave."],
-    clueHint: "Ás veces, dous días importantes xuntos din máis ca dous anos enteiros.",
-    code: "1517",
-    swapped: ["Os días son correctos... pero quen chegou primeiro á partida?"],
-    yearCode: ["Anos, non. O arquivo xa avisou: busca días."],
+    recovered: ["Dúas datas correctas.", "Pero o arquivo non busca as súas datas.", "Busca unha clave máis antiga."],
+    // Clave: 28/05, o día no que comezou a relación (día e mes).
+    clueHint: "Martiño e Xoel non chegaron de repente. Antes deles houbo outro día: aquel no que comezou a historia que lles daría a vida. O arquivo pide ese día: día e mes.",
+    code: "2805",
+    codeLabel: "28 · 05",
+    swapped: ["Case. O arquivo le as datas á galega: primeiro o día, despois o mes."],
+    kidsCode: ["Os días dos nenos son importantes...", "pero o arquivo busca algo anterior. Moito anterior."],
+    kidsCodes: ["1517", "1715", "1511", "1706", "1106", "1622"],
+    weddingCode: ["A voda foi un gran día...", "pero a historia comezara bastante antes."],
+    weddingCodes: ["2507"],
+    yearCode: ["Anos, non. O arquivo pide un día e un mes."],
     wrongCode: ["O candado familiar segue pechado."],
     success: [
       "CLAVE FAMILIAR RECUPERADA",
-      "15 · 11 · 2016\n17 · 06 · 2022",
-      "Houbo dous días nos que a nosa aventura conseguiu novos protagonistas.",
+      "28 · 05",
+      "Un día de maio comezou unha historia.",
+      "Anos despois, esa historia tivo dous novos protagonistas:",
+      "15 · 11 · 2016 · Martiño\n17 · 06 · 2022 · Xoel",
       "Martiño e Xoel uníronse á partida."
     ],
     hints: ["Martiño chegou no outono. Xoel, en pleno verán.", "Martiño: novembro de 2016. Xoel: xuño de 2022."],
-    codeHints: ["Só os días. Primeiro o de quen chegou antes.", "Dous díxitos de Martiño e dous de Xoel."]
+    codeHints: ["Non é unha data dos nenos. É anterior a eles.", "O día no que comezou a vosa relación. Día e mes, catro cifras."]
   },
 
   // Fase 9 · Ordena os recordos cronoloxicamente.
@@ -223,10 +231,10 @@ export const CONTENT = {
     ],
     eggs: {
       "2805": ["Un bo comezo.", "Pero non é o final."],
+      "1622": ["2016 e 2022.", "Dous grandes anos, pero esta caixa busca outra cousa."],
       "2507": ["O día da voda. Bonita data...", "pero esta caixa xa sabe que estades casados."],
       "250714": ["O día da voda. Bonita data...", "pero esta caixa xa sabe que estades casados."],
       "2014": ["2014: o ano no que todo se fixo oficial.", "A caixa aproba a nostalxia, pero quere outra cousa."],
-      "1517": ["A clave familiar!", "Martiño e Xoel aproban o intento, pero esta caixa é doutra partida."],
       "0000": ["Iso é o que poñería calquera.", "E ti non es calquera."],
       "1234": ["Iso é o que poñería calquera.", "E ti non es calquera."],
       "4040": ["40, si. Pero non é tan doado."],
@@ -770,13 +778,14 @@ function phase8(ctx) {
     const stage = ui.stage(null, "code-stage");
     const [m, x] = C.children;
     stage.append(
-      h("div.family-diagram", { "aria-label": "Diagrama: Martiño 15, Xoel 17, clave descoñecida" },
-        h("div.fd-col", {}, h("span.fd-name", {}, m.name.toUpperCase()), h("span.fd-num", {}, m.date[0]), h("span.fd-arrow", {}, "↓")),
-        h("div.fd-col", {}, h("span.fd-name", {}, x.name.toUpperCase()), h("span.fd-num", {}, x.date[0]), h("span.fd-arrow", {}, "↓")),
-        h("div.fd-target", {}, "????"))
+      h("div.family-diagram", { "aria-label": "Diagrama: un día descoñecido do que veñen Martiño e Xoel" },
+        h("div.fd-label", {}, "O COMEZO"),
+        h("div.fd-target", {}, "?? · ??"),
+        h("div.fd-col", {}, h("span.fd-arrow", {}, "↓"), h("span.fd-name", {}, m.name.toUpperCase()), h("span.fd-date", {}, m.date.join(" · "))),
+        h("div.fd-col", {}, h("span.fd-arrow", {}, "↓"), h("span.fd-name", {}, x.name.toUpperCase()), h("span.fd-date", {}, x.date.join(" · "))))
     );
     if (pst.solved) {
-      stage.querySelector(".fd-target").textContent = C.code;
+      stage.querySelector(".fd-target").textContent = C.codeLabel || C.code;
       stage.prepend(h("div.stage-banner", {}, "CLAVE FAMILIAR RECUPERADA"));
       ui.say(C.success, { instant: true });
       ui.controls(continueBtn(ctx));
@@ -794,7 +803,7 @@ function phase8(ctx) {
           ctx.addItem(ITEMS.familia);
           ctx.save();
           await lock.open();
-          stage.querySelector(".fd-target").textContent = C.code;
+          stage.querySelector(".fd-target").textContent = C.codeLabel || C.code;
           stage.prepend(h("div.stage-banner", {}, "CLAVE FAMILIAR RECUPERADA"));
           ui.say(C.success);
           ui.controls(continueBtn(ctx));
@@ -803,8 +812,12 @@ function phase8(ctx) {
         pst.codeState.attempts++;
         ctx.save({ silent: true });
         const swapped = code === C.code.slice(2) + C.code.slice(0, 2);
-        const year = C.children.some((c) => c.date[2] === code);
-        ui.say(swapped ? C.swapped : year ? C.yearCode : C.wrongCode);
+        const year = C.children.some((c) => c.date[2] === code) || /^(19|20)\d\d$/.test(code);
+        const msg = swapped ? C.swapped
+          : C.kidsCodes.includes(code) ? C.kidsCode
+          : C.weddingCodes.includes(code) ? C.weddingCode
+          : year ? C.yearCode : C.wrongCode;
+        ui.say(msg);
         hintEl.refresh();
         return { ok: false };
       }

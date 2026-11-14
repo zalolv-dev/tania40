@@ -71,7 +71,7 @@ tania40/
 | 5 | O incidente da saba | examinar cama + respuesta libre | "Gonzalo" (el que se quejó en recepción) |
 | 6 | Con la luna llena | respuesta libre + QR Spotify | "Con la luna llena" (sin exigir Melendi) |
 | 7 | Fotografía rota | puzle 3×3 por intercambio | — |
-| 8 | O arquivo familiar | fichas de fechas + candado 4 cifras | 15/11/2016, 17/06/2022 → `1517` |
+| 8 | O arquivo familiar | fichas de fechas + candado 4 cifras | 15/11/2016, 17/06/2022 → `2805` (28/05, inicio de la relación) |
 | 9 | Arquivo temporal | ordenar recuerdos + Gonzalo NPC | Torre → Nova York → Voda → Maldivas → Martiño e Xoel |
 | 10 | A caixa forte | caja fuerte | `FINAL_CODE` (lo das tú en persona) |
 
@@ -98,7 +98,7 @@ FINAL_CODE: "2026",
 ```
 Solo dígitos. La caja adapta el número de casillas a la longitud.
 Mientras sea `"TODO"` la caja no se abre (y lo dice).
-Easter eggs ya incluidos: `2805`, `2507`, `250714`, `2014`, `1517`, `0000`, `1234`, `4040`.
+Easter eggs ya incluidos: `2805`, `2507`, `250714`, `2014`, `1622`, `0000`, `1234`, `4040`.
 Se editan en `CONTENT.caixa.eggs` (`js/phases.js`).
 
 ### Regalo

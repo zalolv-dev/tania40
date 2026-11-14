@@ -117,7 +117,7 @@ export const CONTENT = {
   },
 
   voda: {
-    intro: ["Unha capela. Un candado de seis cifras.", "Hai días que non precisan explicación. Só hai que lembrar cando comezou outro capítulo."],
+    intro: ["Pazo de Mondoi. Un campo verde, cadeiras brancas e un arco de flores.", "Baixo o arco agarda un candado de seis cifras.", "Hai días que non precisan explicación. Só hai que lembrar cando comezou outro capítulo."],
     code: "250714",
     reordered: ["Case. Os números están ben, pero o candado le as datas á galega: día, mes e ano."],
     wrong: ["O candado nin se move.", "Click. Nada. Proba outra vez."],
@@ -511,7 +511,7 @@ function phase3(ctx) {
 function phase4(ctx) {
   const C = CONTENT.voda;
   const { ui, pst } = ctx;
-  const stage = ui.stage(sceneWrap(scenes.chapel()), "scene-stage lock-stage");
+  const stage = ui.stage(sceneWrap(scenes.pazo()), "scene-stage lock-stage");
   let hintEl;
 
   const lock = createCodeLock({
